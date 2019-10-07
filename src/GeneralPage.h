@@ -18,7 +18,7 @@
 
 #include <KCModule>
 
-#include "ui_generalPage.h"
+#include "ui_kscreensystem.h"
 
 class ErrorOverlay;
 class GeneralPage : public KCModule, private Ui_generalPage
