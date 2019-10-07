@@ -26,7 +26,7 @@ K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
 GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
         : KCModule(0,parent, args)
 {
-    setButton(Apply);
+    setButtons(Apply);
     setupUi(this);
     fillUi();
 }
