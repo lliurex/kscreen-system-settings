@@ -21,7 +21,7 @@
 #include "ui_kscreensystem.h"
 
 class ErrorOverlay;
-class GeneralPage : public KCModule, private Ui_generalPage
+class GeneralPage : public KCModule, private Ui_kscreensystem
 {
     Q_OBJECT
 
