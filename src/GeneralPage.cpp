@@ -64,3 +64,5 @@ void GeneralPage::fillUi()
 {
     
 }
+
+#include "GeneralPage.moc"
