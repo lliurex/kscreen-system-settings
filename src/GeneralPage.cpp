@@ -70,9 +70,9 @@ void GeneralPage::defaults()
 
 void GeneralPage::fillUi()
 {
-    connect(systemConfigCheckBox, SIGNAL(valueChanged(int)), SLOT(changed()));
-    connect(newusersRadioButton, SIGNAL(valueChanged(int)), SLOT(changed()));
-    connect(allusersRadioButton, SIGNAL(valueChanged(int)), SLOT(changed()));
+    connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(changed()));
+    connect(newusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
+    connect(allusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
 
 }
 
