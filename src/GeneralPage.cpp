@@ -18,6 +18,11 @@
 #include <KPluginFactory>
 #include <KLocalizedString>
 
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+
 K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
                  registerPlugin<GeneralPage>();
                 )
@@ -26,7 +31,7 @@ K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
 GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
         : KCModule(0,parent, args)
 {
-    setButtons(Apply);
+    setButtons(Apply|NoAdditionalButton);
     setupUi(this);
     fillUi();
 }
@@ -48,7 +53,10 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-
+  ofstream myfile;
+  myfile.open ("/tmp/example.txt");
+  myfile << "Writing this to a file.\n";
+  myfile.close();
 }
 
 //
@@ -62,7 +70,10 @@ void GeneralPage::defaults()
 
 void GeneralPage::fillUi()
 {
-    
+    connect(systemConfigCheckBox, SIGNAL(valueChanged(int)), SLOT(changed()));
+    connect(newusersRadioButton, SIGNAL(valueChanged(int)), SLOT(changed()));
+    connect(allusersRadioButton, SIGNAL(valueChanged(int)), SLOT(changed()));
+
 }
 
 #include "GeneralPage.moc"
