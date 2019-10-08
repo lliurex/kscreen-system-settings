@@ -45,7 +45,7 @@ GeneralPage::~GeneralPage()
 //
 void GeneralPage::load()
 {
-    
+    systemConfigCheckBox->setChecked(true);
 }
 
 //
@@ -53,10 +53,7 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-  ofstream myfile;
-  myfile.open ("/tmp/example.txt");
-  myfile << "Writing this to a file.\n";
-  myfile.close();
+
 }
 
 //
@@ -69,15 +66,16 @@ void GeneralPage::defaults()
 
 void GeneralPage::toggleOptions()
 {
-    systemConfigLayout->setEnable(systemConfigCheckBox->isChecked())
+    systemConfigLayout->parentWidget()->setEnabled(systemConfigCheckBox->isChecked());
 }
 
 void GeneralPage::fillUi()
 {
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(changed()));
-    connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), toggleOptions());
+    connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(toggleOptions()));
     connect(newusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
     connect(allusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
+
 
 }
 
