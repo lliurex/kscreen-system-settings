@@ -67,10 +67,15 @@ void GeneralPage::defaults()
 
 }
 
+void GeneralPage::toggleOptions()
+{
+    systemConfigLayout->setEnable(systemConfigCheckBox->isChecked())
+}
 
 void GeneralPage::fillUi()
 {
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(changed()));
+    connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), toggleOptions());
     connect(newusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
     connect(allusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
 
