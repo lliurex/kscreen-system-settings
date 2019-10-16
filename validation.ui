@@ -58,7 +58,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="user">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -84,7 +84,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="password">
        <property name="text">
         <string/>
        </property>
@@ -99,7 +99,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="actionButtons">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
