@@ -27,7 +27,8 @@ set( kcm_kscreen_system_SRCS
 )
 
 ki18n_wrap_ui(kcm_kscreen_system_SRCS
-    generalPage.ui)
+    generalPage.ui
+    validation.ui)
 
 add_library(kcm_kscreen_system MODULE ${kcm_kscreen_system_SRCS})
 
