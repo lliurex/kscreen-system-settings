@@ -10,7 +10,6 @@ set(KF5_MIN_VERSION "5.2.0")
 find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -19,11 +18,14 @@ include(FeatureSummary)
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Widgets)
 find_package(KF5 REQUIRED COMPONENTS I18n Activities Auth IdleTime Config DBusAddons Solid  GlobalAccel KIO NotifyConfig Screen KDELibs4Support Wayland)
 
+find_package(EdupalsBase REQUIRED)
+find_package(EdupalsN4D REQUIRED)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kscreensystem\")
 
 set( kcm_kscreen_system_SRCS
      src/GeneralPage.cpp
+     src/ValidationForm.cpp
 )
 
 ki18n_wrap_ui(kcm_kscreen_system_SRCS
@@ -39,6 +41,7 @@ target_link_libraries(
      KF5::Solid
      KF5::NotifyConfig
      KF5::KDELibs4Support
+     Edupals::Base Edupals::N4D
 )
 
 install(TARGETS kcm_kscreen_system  DESTINATION ${PLUGIN_INSTALL_DIR} )
