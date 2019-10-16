@@ -31,7 +31,7 @@ K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
 GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
         : KCModule(0,parent, args)
 {
-    setButtons(Apply|NoAdditionalButton);
+    setButtons(Apply);
     setupUi(this);
     fillUi();
 }
@@ -75,8 +75,6 @@ void GeneralPage::fillUi()
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(toggleOptions()));
     connect(newusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
     connect(allusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
-
-
 }
 
 #include "GeneralPage.moc"
