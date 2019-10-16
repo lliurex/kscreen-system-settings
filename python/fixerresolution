@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+from xmlrpc.client import ServerProxy
+import ssl
+import os
+import codecs
+
+n4d = ServerProxy('https://localhost:9779', context=ssl._create_unverified_context(), allow_none=True)
+settings = n4d.getSettings('','MonitorSettings')
+home = os.environ['HOME']
+if settings['mode'] is None:
+    os.exit(0)
+else:
+    if settings['mode'] != 'newusers' or settings['mode'] != 'allusers':
+        os.exit(0)
+    
+    for identifier,content in settings['configurations'].items()
+        filepath = '{home}/.local/share/kscreen/{identifier}'.format(home=home,identifier=identifier)
+        if settings['mode'] == 'newusers' and os.path.exists(filepath):
+            continue
+        with codecs.open(filepath,'w',encoding='utf-8') as fd:
+            fd.write(content)
