@@ -20,6 +20,9 @@
 
 #include "ui_kscreensystem.h"
 
+
+using namespace std;
+
 class ErrorOverlay;
 class GeneralPage : public KCModule, private Ui_kscreensystem
 {
@@ -32,6 +35,9 @@ public:
     void load() Q_DECL_OVERRIDE;
     void save() Q_DECL_OVERRIDE;
     void defaults() Q_DECL_OVERRIDE;
+private:
+    string user;
+    string password;
 
 private slots:
     void toggleOptions();

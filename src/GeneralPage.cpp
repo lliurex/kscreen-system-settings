@@ -15,11 +15,18 @@
 
 #include "GeneralPage.h"
 
+// From KDE
 #include <KPluginFactory>
 #include <KLocalizedString>
 
+//from Edupals http://github.com/edupals
+#include <n4d.hpp>
+#include <variant.hpp>
+
 #include <iostream>
 #include <fstream>
+
+using namespace edupals;
 using namespace std;
 
 
@@ -53,7 +60,6 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-
 }
 
 //
@@ -73,8 +79,8 @@ void GeneralPage::fillUi()
 {
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(changed()));
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(toggleOptions()));
-    connect(newusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
-    connect(allusersRadioButton, SIGNAL(stateChanged(int)), SLOT(changed()));
+    connect(newusersRadioButton, SIGNAL(toogled(bool)), SLOT(changed()));
+    connect(allusersRadioButton, SIGNAL(toogled(bool)), SLOT(changed()));
 }
 
 #include "GeneralPage.moc"
