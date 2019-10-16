@@ -27,12 +27,13 @@ set( kcm_kscreen_system_SRCS
 )
 
 ki18n_wrap_ui(kcm_kscreen_system_SRCS
-    generalPage.ui
+    kscreensystem.ui
     validation.ui)
 
 add_library(kcm_kscreen_system MODULE ${kcm_kscreen_system_SRCS})
 
 target_link_libraries(
+     kcm_kscreen_system
      KF5::ConfigWidgets
      KF5::KIOWidgets
      KF5::Solid
