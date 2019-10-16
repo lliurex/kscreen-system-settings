@@ -32,5 +32,3 @@ private:
 private slots:
     
 };
-
-#endif /* GENERALPAGE_H */
