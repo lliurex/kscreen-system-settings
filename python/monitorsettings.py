@@ -1,32 +1,43 @@
-from xmlrpc.client import ServerProxy
-import ssl
-
+import random
+import os
 class MonitorSettings:
-    def __init__(self, server, crendentials):
-        self.n4d = ServerProxy('https://{server}:9779'.format(server=server), context=ssl._create_unverified_context(), allow_none=True)
-        self.credentials = credentials
+    def __init__(self):
+        self.secretpath = '/var/lib/kscreensystemsettings'
 
     def saveResolution(self, settings, identifier):
-        globalSettings = self.n4d.get_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS')
+        globalSettings = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if globalSettings is None: 
             globalSettings = {'mode':None,'configurations':{}}
             globalSettings['configurations'][identifier] = settings
-            self.n4d.objects.add_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS', globalSettings, {}, '', '')
+            objects['VariablesManager'].add_variable('MONITORSETTINGS', globalSettings, {}, '', '')
         else:
             globalSettings['configurations'][identifier] = settings
-            self.n4d.set_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS', globalSettings)
+            objects['VariablesManager'].set_variable('MONITORSETTINGS', globalSettings)
+        newhash = "%032x"%random.getrandbits(256)
+        with open(self.secretpath,'w') as fd:
+            fd.write(newhash "\n")
+        os.chmod(self.secretpath,0o660)
+        return {'status':True, 'msg': newhash}
+
+    def updateResolution(self, settings, identifier, master_key):
+        with open(self.secretpath,'r') as fd:
+            localkey = fd.readline().strip()
+        if localkey == master_key:
+            return self.saveResolution(settings, identifier)
+        else:
+            return {'status':False,'msg':'Invalid master_key'}
 
     def saveMode(self, mode):
-        globalSettings = self.n4d.get_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS')
+        globalSettings = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if globalSettings is None:
             globalSettings = {'mode': mode,'configurations':{}}
-            self.n4d.objects.add_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS', globalSettings, {}, '', '')
+            objects['VariablesManager'].add_variable('MONITORSETTINGS', globalSettings, {}, '', '')
         else:
             globalSettings['mode'] = mode
-            self.n4d.set_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS', globalSettings)
+            objects['VariablesManager'].set_variable('MONITORSETTINGS', globalSettings)
 
     def getSettings(self):
-        result = self.n4d.get_variable(self.credentials, 'VariablesManager', 'MONITORSETTINGS')
+        result = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if result is None:
             result = {'mode':None,'configurations':{}}
         return result
