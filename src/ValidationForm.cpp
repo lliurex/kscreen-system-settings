@@ -23,6 +23,7 @@ using namespace std;
 
 ValidationForm::ValidationForm(QWidget *parent)
 {
+    this->parent = parent;
     setupUi(this);
     fillUi();
 }

@@ -12,19 +12,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef VALIDATIONFORM
+#define VALIDATIONFORM
 
-#include "ui_kscreensystem.h"
+
+#include "ui_validation.h"
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QWidget>
 
-class ValidationForm : public QDialog, private Ui_kscreensystem
+class ValidationForm : public QDialog, private Ui_validationForm
 {
     Q_OBJECT
 
 public:
     ValidationForm(QWidget *parent);
-    virtual ~ValidationForm();
+    virtual ~ValidationForm(){};
     void fillUi();
 private:
+    QWidget *parent;
     std::string user;
     std::string password;
     void validateUser();
@@ -32,3 +37,5 @@ private:
 private slots:
     
 };
+
+#endif

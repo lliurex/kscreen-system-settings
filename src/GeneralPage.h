@@ -19,6 +19,7 @@
 #include <KCModule>
 
 #include "ui_kscreensystem.h"
+#include "ValidationForm.h"
 
 
 using namespace std;

@@ -14,14 +14,15 @@
 */
 
 #include "GeneralPage.h"
-
-// From KDE
-#include <KPluginFactory>
-#include <KLocalizedString>
+#include "ValidationForm.h"
 
 //from Edupals http://github.com/edupals
 #include <n4d.hpp>
 #include <variant.hpp>
+
+// From KDE
+#include <KPluginFactory>
+#include <KLocalizedString>
 
 #include <iostream>
 #include <fstream>
