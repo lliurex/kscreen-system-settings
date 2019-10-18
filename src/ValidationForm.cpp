@@ -16,6 +16,10 @@
 
 #include "ValidationForm.h"
 
+// From Edupals
+#include <n4d.hpp>
+#include <variant.hpp>
+
 #include <iostream>
 
 using namespace std;
@@ -29,11 +33,22 @@ ValidationForm::ValidationForm(QWidget *parent)
 }
 
 void ValidationForm::validateUser(){
-    user = "Raul";
-    password = "Rodrigo";
-    cout << "Hola" << endl;
+    
+    n4d::Client client("https://server",9779);
+    vector<variant::Variant> params = {"1",2,false};
+    
+    variant::Variant result = client.validate_user(user->text().toStdString(), password->text().toStdString());
+
+    if (bool(result[0])){
+        this->done(1);
+    }
+    else{
+        cout << "Ha fallado la autenticacion" << endl;
+    }
+    
 }
 
 void ValidationForm::fillUi(){
-    connect(actionButtons,SIGNAL(accepted()),SLOT(validateuser()));
+    connect(actionButtons,SIGNAL(accepted()),SLOT(validateUser()));
+    connect(actionButtons,SIGNAL(rejected()),SLOT(reject()));
 }

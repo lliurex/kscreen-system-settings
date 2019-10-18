@@ -15,12 +15,12 @@
 #ifndef VALIDATIONFORM
 #define VALIDATIONFORM
 
-
 #include "ui_validation.h"
+
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QWidget>
 
-class ValidationForm : public QDialog, private Ui_validationForm
+class ValidationForm : public QDialog, public Ui_validationForm
 {
     Q_OBJECT
 
@@ -30,12 +30,9 @@ public:
     void fillUi();
 private:
     QWidget *parent;
-    std::string user;
-    std::string password;
-    void validateUser();
 
 private slots:
-    
+    void validateUser();
 };
 
 #endif

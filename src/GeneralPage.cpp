@@ -61,6 +61,12 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
+        ValidationForm dialog(this);
+        dialog.exec();
+        if (dialog.result() == QDialog::DialogCode::Accepted ) {
+                cout << dialog.user->text().toStdString() << endl;
+                cout << dialog.password->text().toStdString() << endl;
+        }
 }
 
 //
@@ -80,8 +86,8 @@ void GeneralPage::fillUi()
 {
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(changed()));
     connect(systemConfigCheckBox, SIGNAL(stateChanged(int)), SLOT(toggleOptions()));
-    connect(newusersRadioButton, SIGNAL(toogled(bool)), SLOT(changed()));
-    connect(allusersRadioButton, SIGNAL(toogled(bool)), SLOT(changed()));
+    connect(newusersRadioButton, SIGNAL(toggled(bool)), SLOT(changed()));
+    connect(allusersRadioButton, SIGNAL(toggled(bool)), SLOT(changed()));
 }
 
 #include "GeneralPage.moc"
