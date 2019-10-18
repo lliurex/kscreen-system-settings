@@ -23,6 +23,7 @@
 #include <iostream>
 
 using namespace std;
+using namespace edupals;
 
 
 ValidationForm::ValidationForm(QWidget *parent)
