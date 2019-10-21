@@ -35,16 +35,14 @@ ValidationForm::ValidationForm(QWidget *parent)
 
 void ValidationForm::validateUser(){
     
-    n4d::Client client("https://server",9779);
-    vector<variant::Variant> params = {"1",2,false};
-    
-    variant::Variant result = client.validate_user(user->text().toStdString(), password->text().toStdString());
+    n4d::Client client("https://localhost",9779);
 
+    bool result = client.validate_user(user->text().toStdString(), password->text().toStdString());
     if (bool(result[0])){
         this->done(1);
     }
     else{
-        cout << "Ha fallado la autenticacion" << endl;
+        password->setStyleSheet("QLineEdit { background: rgb(255, 0, 0); selection-background-color: rgb(233, 99, 0); }");
     }
     
 }

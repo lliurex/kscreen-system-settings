@@ -67,6 +67,9 @@ void GeneralPage::save()
                 cout << dialog.user->text().toStdString() << endl;
                 cout << dialog.password->text().toStdString() << endl;
         }
+        else{
+            
+        }
 }
 
 //
