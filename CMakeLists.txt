@@ -16,7 +16,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Widgets)
-find_package(KF5 REQUIRED COMPONENTS I18n Activities Auth IdleTime Config DBusAddons Solid  GlobalAccel KIO NotifyConfig Screen KDELibs4Support Wayland WidgetsAddons
+find_package(KF5 REQUIRED COMPONENTS I18n Activities Auth IdleTime Config DBusAddons Solid  GlobalAccel KIO NotifyConfig Screen KDELibs4Support Wayland WidgetsAddons)
 
 find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
