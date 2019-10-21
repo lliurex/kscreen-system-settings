@@ -17,6 +17,9 @@
 
 #include "ui_validation.h"
 
+// From KDE
+#include <KMessageWidget>
+
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QWidget>
 
@@ -30,7 +33,7 @@ public:
     void fillUi();
 private:
     QWidget *parent;
-
+    KMessageWidget *notificationwidget;
 private slots:
     void validateUser();
 };

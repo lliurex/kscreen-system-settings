@@ -20,6 +20,10 @@
 #include <n4d.hpp>
 #include <variant.hpp>
 
+// From KDE
+
+#include <KMessageWidget>
+
 #include <iostream>
 
 using namespace std;
@@ -31,6 +35,9 @@ ValidationForm::ValidationForm(QWidget *parent)
     this->parent = parent;
     setupUi(this);
     fillUi();
+    notificationwidget = new KMessageWidget(this);
+    notification->layout()->addWidget(notificationwidget);
+
 }
 
 void ValidationForm::validateUser(){
@@ -38,11 +45,12 @@ void ValidationForm::validateUser(){
     n4d::Client client("https://localhost",9779);
 
     bool result = client.validate_user(user->text().toStdString(), password->text().toStdString());
-    if (bool(result[0])){
+    if (bool(result)){
         this->done(1);
     }
     else{
-        password->setStyleSheet("QLineEdit { background: rgb(255, 0, 0); selection-background-color: rgb(233, 99, 0); }");
+        notificationwidget->setText("Error de validacion");
+        notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
     }
     
 }
