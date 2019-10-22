@@ -60,6 +60,8 @@ public:
     ValidationForm(QWidget *parent);
     virtual ~ValidationForm(){};
     void fillUi();
+    std::string getUser();
+    std::string getPassword();
 private:
     QWidget *parent;
     KMessageWidget *notificationwidget;
