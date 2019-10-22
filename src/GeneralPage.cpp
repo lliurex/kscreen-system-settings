@@ -56,7 +56,7 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     systemConfigCheckBox->setChecked(true);
-    client->call();
+    //client->call();
 }
 
 //
@@ -67,7 +67,7 @@ void GeneralPage::save()
         ValidationForm dialog(this);
         dialog.exec();
         if (dialog.result() == QDialog::DialogCode::Accepted ) {
-                client->call();
+                //client->call();
                 cout << dialog.getUser() << endl;
                 cout << dialog.getPassword() << endl;
         }
