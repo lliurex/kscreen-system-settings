@@ -42,7 +42,7 @@ GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
     setButtons(Apply);
     setupUi(this);
     fillUi();
-    client = new Client("https://localhost",9779);
+    client = new n4d::Client("https://localhost",9779);
 }
 
 GeneralPage::~GeneralPage()
