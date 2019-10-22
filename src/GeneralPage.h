@@ -21,8 +21,10 @@
 #include "ui_kscreensystem.h"
 #include "ValidationForm.h"
 
+#include <n4d.hpp>
 
 using namespace std;
+using namespace edupals;
 
 class ErrorOverlay;
 class GeneralPage : public KCModule, private Ui_kscreensystem
@@ -39,6 +41,7 @@ public:
 private:
     string user;
     string password;
+    n4d::Client *client;
 
 private slots:
     void toggleOptions();

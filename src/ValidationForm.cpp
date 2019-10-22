@@ -17,7 +17,7 @@
 #include "ValidationForm.h"
 
 // From Edupals
-#include <n4d.hpp>
+//#include <n4d.hpp>
 #include <variant.hpp>
 
 // From KDE
@@ -25,10 +25,11 @@
 #include <KMessageWidget>
 
 #include <iostream>
+#include <QGraphicsOpacityEffect>
+#include <QThread>
 
 using namespace std;
 using namespace edupals;
-
 
 ValidationForm::ValidationForm(QWidget *parent)
 {
@@ -37,25 +38,56 @@ ValidationForm::ValidationForm(QWidget *parent)
     fillUi();
     notificationwidget = new KMessageWidget(this);
     notification->layout()->addWidget(notificationwidget);
-
+    QGraphicsOpacityEffect * effect = new QGraphicsOpacityEffect(notificationwidget);
+    effect->setOpacity(0);
+    notificationwidget->setGraphicsEffect(effect);
 }
 
-void ValidationForm::validateUser(){
-    
-    n4d::Client client("https://localhost",9779);
+void ValidationForm::validateUser()
+{
+    ((QGraphicsOpacityEffect*)notificationwidget->graphicsEffect())->setOpacity(0);
+    setEnableWidgets(false);
+    an4d=new AsyncN4D(user->text().toStdString(), password->text().toStdString()) ;
+    QObject::connect(an4d,SIGNAL(message(bool)), this, SLOT(n4dDone(bool)));
+    an4d->start();
+}
 
-    bool result = client.validate_user(user->text().toStdString(), password->text().toStdString());
-    if (bool(result)){
+void ValidationForm::n4dDone(bool result)
+{
+     if (result){
         this->done(1);
     }
     else{
         notificationwidget->setText("Error de validacion");
         notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+        notificationwidget->setCloseButtonVisible(false);
+        ((QGraphicsOpacityEffect*)notificationwidget->graphicsEffect())->setOpacity(1);
     }
-    
+    an4d->exit(0);
+    if (an4d->wait())
+    {
+        delete an4d;
+    }
+    setEnableWidgets(true);
+
+}
+
+string ValidationForm::getUser(){
+    return user->text().toStdString();
+}
+
+string ValidationForm::getPassword(){
+    return password->text().toStdString();
+}
+
+void ValidationForm::setEnableWidgets(bool state)
+{
+    user->setEnabled(state);
+    password->setEnabled(state);
+    actionButtons->setEnabled(state);
 }
 
 void ValidationForm::fillUi(){
-    connect(actionButtons,SIGNAL(accepted()),SLOT(validateUser()));
-    connect(actionButtons,SIGNAL(rejected()),SLOT(reject()));
+    connect(actionButtons, SIGNAL(accepted()), SLOT(validateUser()));
+    connect(actionButtons, SIGNAL(rejected()), SLOT(reject()));
 }

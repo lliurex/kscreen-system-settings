@@ -42,10 +42,12 @@ GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
     setButtons(Apply);
     setupUi(this);
     fillUi();
+    client = new Client("https://localhost",9779);
 }
 
 GeneralPage::~GeneralPage()
 {
+    delete client;
 }
 
 // 
@@ -54,6 +56,7 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     systemConfigCheckBox->setChecked(true);
+    client->call();
 }
 
 //
@@ -64,8 +67,9 @@ void GeneralPage::save()
         ValidationForm dialog(this);
         dialog.exec();
         if (dialog.result() == QDialog::DialogCode::Accepted ) {
-                cout << dialog.user->text().toStdString() << endl;
-                cout << dialog.password->text().toStdString() << endl;
+                client->call();
+                cout << dialog.getUser() << endl;
+                cout << dialog.getPassword() << endl;
         }
         else{
             

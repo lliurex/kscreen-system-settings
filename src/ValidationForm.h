@@ -22,6 +22,35 @@
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QWidget>
+#include <QThread>
+#include <n4d.hpp>
+#include <iostream>
+
+class AsyncN4D: public QThread
+{
+    Q_OBJECT
+
+    public:
+        std::string user;
+        std::string password;
+
+
+        AsyncN4D(std::string user,std::string password)
+        {
+            this->user=user;
+            this->password=password;
+        }
+        void run()
+        {
+            edupals::n4d::Client client("https://localhost",9779);
+            bool result = client.validate_user(user, password);
+            emit message(result);
+        }
+
+    signals:
+        void message(bool);
+};
+
 
 class ValidationForm : public QDialog, public Ui_validationForm
 {
@@ -34,8 +63,12 @@ public:
 private:
     QWidget *parent;
     KMessageWidget *notificationwidget;
+    AsyncN4D* an4d;
+    void setEnableWidgets(bool status);
 private slots:
     void validateUser();
+    void n4dDone(bool status);
 };
 
 #endif
+           
