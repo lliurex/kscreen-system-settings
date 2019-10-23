@@ -1,0 +1,9 @@
+[SETUP]
+type=python
+path=monitorsettings.py
+class=MonitorSettings
+[METHODS]
+saveResolution=sudo,admins,teachers
+updateResolution=anonymous
+saveMode=sudo,admins,teachers
+getSettings=anonymous
