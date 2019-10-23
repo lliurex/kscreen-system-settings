@@ -52,7 +52,7 @@ class AsyncN4D: public QThread
 };
 
 
-class ValidationForm : public QDialog, public Ui_validationForm
+class ValidationForm : public QDialog, private Ui_validationForm
 {
     Q_OBJECT
 

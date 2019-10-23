@@ -19,6 +19,7 @@
 //from Edupals http://github.com/edupals
 #include <n4d.hpp>
 #include <variant.hpp>
+#include <json.hpp>
 
 // From KDE
 #include <KPluginFactory>
@@ -55,8 +56,25 @@ GeneralPage::~GeneralPage()
 //
 void GeneralPage::load()
 {
-    systemConfigCheckBox->setChecked(true);
-    //client->call();
+    variant::Variant result = client.call("getSettings","MonitorSettings");
+    if (result['status']){
+        switch (result['msg']['mode'])
+        {
+        case 'allusers':
+            systemConfigCheckBox->setChecked(true);
+            allusersRadioButton->setChecked(true);
+            break;
+        case 'newusers':
+            systemConfigCheckBox->setChecked(true);
+            newusersRadioButton->setChecked(true);
+            break;
+        case 'nobody':
+            systemConfigCheckBox->setChecked(false);
+            newusersRadioButton->setChecked(true);
+        default:
+            break;
+        }
+    }
 }
 
 //
@@ -64,17 +82,38 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-        ValidationForm dialog(this);
-        dialog.exec();
-        if (dialog.result() == QDialog::DialogCode::Accepted ) {
-                //client->call();
-                cout << dialog.getUser() << endl;
-                cout << dialog.getPassword() << endl;
+    ValidationForm dialog(this);
+    dialog.exec();
+    if (dialog.result() == QDialog::DialogCode::Accepted ) {
+        //client->call();
+        n4d::auth::Credentials credentials(dialog.getUser(),dialog.getPassword());
+        string mode = getMode();
+        client.call("saveMode", "MonitorSettings", mode, credentials);
+        string resolutionfolders = str(getenv("HOME")) + "/.local/share/kscreen";
+        for(const auto & entry : filesystem::directory_iterator(resolutionfolders))
+            TODO
+    }
+    else{
+        
+    }
+}
+
+string GeneralPage::getMode(){
+    if (!systemConfigCheckBox->isChecked())
+    {
+        return "nobody";
+    }
+    else
+    {
+        if(newusersRadioButton->isChecked()){
+            return "newusers";
         }
         else{
-            
+            return "allusers";
         }
+    }
 }
+
 
 //
 // This function write default values into n4d

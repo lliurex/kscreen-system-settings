@@ -2,6 +2,9 @@ import random
 import os
 class MonitorSettings:
     def __init__(self):
+        '''
+        mode : {nobody, allusers, newusers }
+        '''
         self.secretpath = '/var/lib/kscreensystemsettings'
 
     def saveResolution(self, settings, identifier):
@@ -39,6 +42,6 @@ class MonitorSettings:
     def getSettings(self):
         result = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if result is None:
-            result = {'mode':None,'configurations':{}}
-        return result
+            result = {'mode':'nobody','configurations':{}}
+        return {'status':True, 'msg':result}
 
