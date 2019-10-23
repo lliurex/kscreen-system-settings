@@ -71,6 +71,7 @@ void GeneralPage::load()
         else{
             systemConfigCheckBox->setChecked(false);
             newusersRadioButton->setChecked(true);
+            toggleOptions();
         }
     }
 }
@@ -95,8 +96,8 @@ void GeneralPage::save()
             if(fb->open(file,ios::in)){
                 istream filestream(fb);
                 variant::Variant configuration = json::load(filestream);
-                vector<variant::Variant> arguments = {configuration,file.filename()};
-                client->call("MonitorSettings","saveResolution",arguments,credential)
+                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
+                client->call("MonitorSettings","saveResolution",arguments,credential);
             }   
         }
     }
