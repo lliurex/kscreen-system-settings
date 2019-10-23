@@ -58,18 +58,18 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     variant::Variant result = client.call("getSettings","MonitorSettings");
-    if (result['status']){
-        switch (result['msg']['mode'])
+    if (result["status"]){
+        switch (result["msg"]["mode"])
         {
-        case 'allusers':
+        case "allusers":
             systemConfigCheckBox->setChecked(true);
             allusersRadioButton->setChecked(true);
             break;
-        case 'newusers':
+        case "newusers":
             systemConfigCheckBox->setChecked(true);
             newusersRadioButton->setChecked(true);
             break;
-        case 'nobody':
+        case "nobody":
             systemConfigCheckBox->setChecked(false);
             newusersRadioButton->setChecked(true);
         default:
