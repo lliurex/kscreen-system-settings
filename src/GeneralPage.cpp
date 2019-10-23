@@ -58,22 +58,19 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     variant::Variant result = client->call("getSettings","MonitorSettings");
-    if ((bool)result["status"]){
-        switch ((string)result["msg"]["mode"])
-        {
-        case "allusers":
+    if (result["status"].get_boolean()){
+        if (result["msg"]["mode"].get_string() == "allusers"){
             systemConfigCheckBox->setChecked(true);
             allusersRadioButton->setChecked(true);
-            break;
-        case "newusers":
+        }
+        else if(result["msg"]["mode"].get_string() == "allusers")
+        {
             systemConfigCheckBox->setChecked(true);
             newusersRadioButton->setChecked(true);
-            break;
-        case "nobody":
+        }
+        else{
             systemConfigCheckBox->setChecked(false);
             newusersRadioButton->setChecked(true);
-        default:
-            break;
         }
     }
 }
