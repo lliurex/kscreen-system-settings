@@ -1,0 +1,12 @@
+
+
+
+
+Build-Depends: cmake,libedupals-n4d-dev, 
+		libedupals-base-dev,
+ 		extra-cmake-modules,
+ 		libkf5i18n-dev,
+		libkf5kio-dev,
+		pkg-config,
+		pkg-kde-tools,
+		qtbase5-dev
