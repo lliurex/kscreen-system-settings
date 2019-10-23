@@ -57,7 +57,7 @@ GeneralPage::~GeneralPage()
 //
 void GeneralPage::load()
 {
-    variant::Variant result = client.call("getSettings","MonitorSettings");
+    variant::Variant result = client->call("getSettings","MonitorSettings");
     if (result["status"]){
         switch (result["msg"]["mode"])
         {
@@ -89,7 +89,7 @@ void GeneralPage::save()
         //client->call();
         n4d::auth::Credentials credentials(dialog.getUser(),dialog.getPassword());
         string mode = getMode();
-        client.call("saveMode", "MonitorSettings", mode, credentials);
+        client->call("saveMode", "MonitorSettings", mode, credentials);
         string resolutionfolders = str(getenv("HOME")) + "/.local/share/kscreen";
         auto files = filesystem::glob(resolutionfolders);
         for (auto file : files) {
@@ -98,7 +98,7 @@ void GeneralPage::save()
                 istream filestream(fb);
                 Variant configuration =json::load(filestream);
                 Variant arguments = {configuration,file.filename()};
-                client.call("saveResolution","MonitorSettings",arguments,credentials)
+                client->call("saveResolution","MonitorSettings",arguments,credentials)
             }   
         }
     }
