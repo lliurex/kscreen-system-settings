@@ -57,7 +57,7 @@ GeneralPage::~GeneralPage()
 //
 void GeneralPage::load()
 {
-    variant::Variant result = client->call("getSettings","MonitorSettings");
+    variant::Variant result = client->call("MonitorSettings","getSettings");
     if (result["status"].get_boolean()){
         if (result["msg"]["mode"].get_string() == "allusers"){
             systemConfigCheckBox->setChecked(true);
@@ -86,17 +86,17 @@ void GeneralPage::save()
         //client->call();
         
         n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
-        string mode = getMode();
-        client->call("saveMode", "MonitorSettings", mode, credential);
+        vector<variant::Variant> mode = {getMode()};
+        client->call("MonitorSettings","saveMode", mode, credential);
         string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen";
         auto files = filesystem::glob(resolutionfolders);
         for (auto file : files) {
             filebuf *fb;
             if(fb->open(file,ios::in)){
                 istream filestream(fb);
-                Variant configuration =json::load(filestream);
-                Variant arguments = {configuration,file.filename()};
-                client->call("saveResolution","MonitorSettings",arguments,credential)
+                variant::Variant configuration = json::load(filestream);
+                vector<variant::Variant> arguments = {configuration,file.filename()};
+                client->call("MonitorSettings","saveResolution",arguments,credential)
             }   
         }
     }
