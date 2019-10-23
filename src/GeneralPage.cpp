@@ -58,8 +58,8 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     variant::Variant result = client->call("getSettings","MonitorSettings");
-    if (result["status"]){
-        switch (result["msg"]["mode"])
+    if ((bool)result["status"]){
+        switch ((string)result["msg"]["mode"])
         {
         case "allusers":
             systemConfigCheckBox->setChecked(true);
@@ -87,10 +87,11 @@ void GeneralPage::save()
     dialog.exec();
     if (dialog.result() == QDialog::DialogCode::Accepted ) {
         //client->call();
-        n4d::auth::Credentials credentials(dialog.getUser(),dialog.getPassword());
+        
+        n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
         string mode = getMode();
-        client->call("saveMode", "MonitorSettings", mode, credentials);
-        string resolutionfolders = str(getenv("HOME")) + "/.local/share/kscreen";
+        client->call("saveMode", "MonitorSettings", mode, credential);
+        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen";
         auto files = filesystem::glob(resolutionfolders);
         for (auto file : files) {
             filebuf *fb;
@@ -98,7 +99,7 @@ void GeneralPage::save()
                 istream filestream(fb);
                 Variant configuration =json::load(filestream);
                 Variant arguments = {configuration,file.filename()};
-                client->call("saveResolution","MonitorSettings",arguments,credentials)
+                client->call("saveResolution","MonitorSettings",arguments,credential)
             }   
         }
     }
