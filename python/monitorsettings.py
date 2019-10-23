@@ -18,7 +18,7 @@ class MonitorSettings:
             objects['VariablesManager'].set_variable('MONITORSETTINGS', globalSettings)
         newhash = "%032x"%random.getrandbits(256)
         with open(self.secretpath,'w') as fd:
-            fd.write(newhash "\n")
+            fd.write(newhash+"\n")
         os.chmod(self.secretpath,0o660)
         return {'status':True, 'msg': newhash}
 
