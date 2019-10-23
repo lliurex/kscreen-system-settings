@@ -20,6 +20,7 @@
 #include <n4d.hpp>
 #include <variant.hpp>
 #include <json.hpp>
+#include <filesystem.hpp>
 
 // From KDE
 #include <KPluginFactory>
@@ -90,8 +91,16 @@ void GeneralPage::save()
         string mode = getMode();
         client.call("saveMode", "MonitorSettings", mode, credentials);
         string resolutionfolders = str(getenv("HOME")) + "/.local/share/kscreen";
-        for(const auto & entry : filesystem::directory_iterator(resolutionfolders))
-            TODO
+        auto files = filesystem::glob(resolutionfolders);
+        for (auto file : files) {
+            filebuf *fb;
+            if(fb->open(file,ios::in)){
+                istream filestream(fb);
+                Variant configuration =json::load(filestream);
+                Variant arguments = {configuration,file.filename()};
+                client.call("saveResolution","MonitorSettings",arguments,credentials)
+            }   
+        }
     }
     else{
         
