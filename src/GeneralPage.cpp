@@ -89,7 +89,7 @@ void GeneralPage::save()
         n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
         vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode, credential);
-        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen";
+        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
         auto files = filesystem::glob(resolutionfolders);
         for (auto file : files) {
             filebuf *fb;
