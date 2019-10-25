@@ -91,15 +91,31 @@ void GeneralPage::save()
         client->call("MonitorSettings","saveMode", mode, credential);
         string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
         auto files = filesystem::glob(resolutionfolders);
-        for (auto file : files) {
+        variant::Variant result;
+        for (auto file : files) 
+        {
             filebuf *fb;
             if(fb->open(file,ios::in)){
                 istream filestream(fb);
                 variant::Variant configuration = json::load(filestream);
                 vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
-                client->call("MonitorSettings","saveResolution",arguments,credential);
+                result = client->call("MonitorSettings","saveResolution",arguments,credential);
             }   
         }
+        bool ok;
+        try{
+            ok = result["status"].get_boolean();
+        }
+        catch (...){
+            ok = false;
+        }
+        if(ok)
+        {
+            ofstream hashfile( string(getenv("HOME")) + "/.config/kscreensystem");
+            hashfile << result["msg"] << endl;
+            hashfile.close();
+        }
+
     }
     else{
         
