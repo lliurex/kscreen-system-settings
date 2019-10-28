@@ -63,7 +63,7 @@ void GeneralPage::load()
             systemConfigCheckBox->setChecked(true);
             allusersRadioButton->setChecked(true);
         }
-        else if(result["msg"]["mode"].get_string() == "allusers")
+        else if(result["msg"]["mode"].get_string() == "newusers")
         {
             systemConfigCheckBox->setChecked(true);
             newusersRadioButton->setChecked(true);
@@ -74,6 +74,8 @@ void GeneralPage::load()
             toggleOptions();
         }
     }
+    user = "";
+    password = "";
 }
 
 //
@@ -81,11 +83,21 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-    ValidationForm dialog(this);
-    dialog.exec();
-    if (dialog.result() == QDialog::DialogCode::Accepted ) {
-        
-        n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
+
+    if (user == "" )
+    {
+    	ValidationForm dialog(this);
+    	dialog.exec();
+    
+    	if (dialog.result() == QDialog::DialogCode::Accepted)
+    	{
+	    user = dialog.getUser();
+	    password = dialog.getPassword();
+    	}
+    }
+    if (user != "" )
+    {
+        n4d::auth::Credential credential(user,password);
         vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode, credential);
         string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
