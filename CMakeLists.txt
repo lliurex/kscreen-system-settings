@@ -6,7 +6,6 @@ project(kscreensystem)
 set(QT_MIN_VERSION "5.3.0")
 set(KF5_MIN_VERSION "5.2.0")
 
-
 find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -20,6 +19,7 @@ find_package(KF5 REQUIRED COMPONENTS I18n                     Config            
 
 find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions")
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kscreensystem\")
 

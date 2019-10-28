@@ -84,7 +84,6 @@ void GeneralPage::save()
     ValidationForm dialog(this);
     dialog.exec();
     if (dialog.result() == QDialog::DialogCode::Accepted ) {
-        //client->call();
         
         n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
         vector<variant::Variant> mode = {getMode()};
@@ -94,15 +93,15 @@ void GeneralPage::save()
         variant::Variant result;
         for (auto file : files) 
         {
-            filebuf *fb;
-            if(fb->open(file,ios::in)){
-                istream filestream(fb);
-                variant::Variant configuration = json::load(filestream);
+            fstream fb;
+	    fb.open(file.string(),ios::in);
+            if(fb.is_open()){
+                variant::Variant configuration = json::load(fb);
                 vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
                 result = client->call("MonitorSettings","saveResolution",arguments,credential);
             }   
         }
-        bool ok;
+        bool ok = false;
         try{
             ok = result["status"].get_boolean();
         }
@@ -111,9 +110,9 @@ void GeneralPage::save()
         }
         if(ok)
         {
-            ofstream hashfile( string(getenv("HOME")) + "/.config/kscreensystem");
-            hashfile << result["msg"] << endl;
-            hashfile.close();
+            fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
+            fs << result["msg"].get_string() << endl;
+            fs.close();
         }
 
     }
