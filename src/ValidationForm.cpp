@@ -41,6 +41,7 @@ ValidationForm::ValidationForm(QWidget *parent)
     QGraphicsOpacityEffect * effect = new QGraphicsOpacityEffect(notificationwidget);
     effect->setOpacity(0);
     notificationwidget->setGraphicsEffect(effect);
+    user->setText(QString(getenv("USER")));
 }
 
 void ValidationForm::validateUser()

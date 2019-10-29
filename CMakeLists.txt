@@ -6,7 +6,6 @@ project(kscreensystem)
 set(QT_MIN_VERSION "5.3.0")
 set(KF5_MIN_VERSION "5.2.0")
 
-
 find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -16,10 +15,11 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Widgets)
-find_package(KF5 REQUIRED COMPONENTS I18n Activities Auth IdleTime Config DBusAddons Solid  GlobalAccel KIO NotifyConfig Screen KDELibs4Support Wayland WidgetsAddons)
+find_package(KF5 REQUIRED COMPONENTS I18n                     Config                   KIO                                             WidgetsAddons)
 
 find_package(EdupalsBase REQUIRED)
 find_package(EdupalsN4D REQUIRED)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions")
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kscreensystem\")
 
@@ -38,9 +38,7 @@ target_link_libraries(
      kcm_kscreen_system
      KF5::ConfigWidgets
      KF5::KIOWidgets
-     KF5::Solid
-     KF5::NotifyConfig
-     KF5::KDELibs4Support
+     KF5::I18n
      KF5::WidgetsAddons
      Edupals::Base Edupals::N4D
 )

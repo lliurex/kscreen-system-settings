@@ -63,7 +63,7 @@ void GeneralPage::load()
             systemConfigCheckBox->setChecked(true);
             allusersRadioButton->setChecked(true);
         }
-        else if(result["msg"]["mode"].get_string() == "allusers")
+        else if(result["msg"]["mode"].get_string() == "newusers")
         {
             systemConfigCheckBox->setChecked(true);
             newusersRadioButton->setChecked(true);
@@ -74,6 +74,8 @@ void GeneralPage::load()
             toggleOptions();
         }
     }
+    user = "";
+    password = "";
 }
 
 //
@@ -81,25 +83,50 @@ void GeneralPage::load()
 //
 void GeneralPage::save()
 {
-    ValidationForm dialog(this);
-    dialog.exec();
-    if (dialog.result() == QDialog::DialogCode::Accepted ) {
-        //client->call();
-        
-        n4d::auth::Credential credential(dialog.getUser(),dialog.getPassword());
+
+    if (user == "" )
+    {
+    	ValidationForm dialog(this);
+    	dialog.exec();
+    
+    	if (dialog.result() == QDialog::DialogCode::Accepted)
+    	{
+	    user = dialog.getUser();
+	    password = dialog.getPassword();
+    	}
+    }
+    if (user != "" )
+    {
+        n4d::auth::Credential credential(user,password);
         vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode, credential);
-        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen";
+        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
         auto files = filesystem::glob(resolutionfolders);
-        for (auto file : files) {
-            filebuf *fb;
-            if(fb->open(file,ios::in)){
-                istream filestream(fb);
-                variant::Variant configuration = json::load(filestream);
+        variant::Variant result;
+        for (auto file : files) 
+        {
+            fstream fb;
+	    fb.open(file.string(),ios::in);
+            if(fb.is_open()){
+                variant::Variant configuration = json::load(fb);
                 vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
-                client->call("MonitorSettings","saveResolution",arguments,credential);
+                result = client->call("MonitorSettings","saveResolution",arguments,credential);
             }   
         }
+        bool ok = false;
+        try{
+            ok = result["status"].get_boolean();
+        }
+        catch (...){
+            ok = false;
+        }
+        if(ok)
+        {
+            fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
+            fs << result["msg"].get_string() << endl;
+            fs.close();
+        }
+
     }
     else{
         

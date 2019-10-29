@@ -1,5 +1,6 @@
 import random
 import os
+import copy
 class MonitorSettings:
     def __init__(self):
         '''
@@ -8,7 +9,7 @@ class MonitorSettings:
         self.secretpath = '/var/lib/kscreensystemsettings'
 
     def saveResolution(self, settings, identifier):
-        globalSettings = objects['VariablesManager'].get_variable('MONITORSETTINGS')
+        globalSettings = copy.deepcopy(objects['VariablesManager'].get_variable('MONITORSETTINGS'))
         if globalSettings is None: 
             globalSettings = {'mode':None,'configurations':{}}
             globalSettings['configurations'][identifier] = settings
@@ -31,7 +32,7 @@ class MonitorSettings:
             return {'status':False,'msg':'Invalid master_key'}
 
     def saveMode(self, mode):
-        globalSettings = objects['VariablesManager'].get_variable('MONITORSETTINGS')
+        globalSettings = copy.deepcopy(objects['VariablesManager'].get_variable('MONITORSETTINGS'))
         if globalSettings is None:
             globalSettings = {'mode': mode,'configurations':{}}
             objects['VariablesManager'].add_variable('MONITORSETTINGS', globalSettings, {}, '', '')
@@ -42,6 +43,6 @@ class MonitorSettings:
     def getSettings(self):
         result = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if result is None:
-            result = {'mode':'nobody','configurations':{}}
+            result = {'mode':'newusers','configurations':{}}
         return {'status':True, 'msg':result}
 
