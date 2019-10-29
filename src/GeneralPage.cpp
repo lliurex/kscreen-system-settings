@@ -25,6 +25,7 @@
 // From KDE
 #include <KPluginFactory>
 #include <KLocalizedString>
+#include <KMessageWidget>
 
 #include <iostream>
 #include <fstream>
@@ -129,7 +130,10 @@ void GeneralPage::save()
 
     }
     else{
-        
+        KMessageWidget notificationwidget(this);
+        notificationwidget->setText("Error on authentication. Changes hasn't been applied");
+        notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+        notifications->layout()->addWidget(notificationwidget);
     }
 }
 
