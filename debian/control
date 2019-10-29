@@ -1,12 +1,24 @@
+Source: kscreen-system-settings
+Section: kde
+Priority: optional
+Maintainer: LliureX Team <lliurex@gva.es>
+Build-Depends: debhelper (>= 10),
+		cmake,
+                libedupals-n4d-dev,
+                libedupals-base-dev,
+                extra-cmake-modules,
+                libkf5i18n-dev,
+                libkf5kio-dev,
+                pkg-config,
+                pkg-kde-tools,
+                qtbase5-dev
+Standards-Version: 4.1.2
+Homepage: http://lliurex.net
+Vcs-Browser: https://github.com/lliurex/kscreen-system-settings
 
-
-
-
-Build-Depends: cmake,libedupals-n4d-dev, 
-		libedupals-base-dev,
- 		extra-cmake-modules,
- 		libkf5i18n-dev,
-		libkf5kio-dev,
-		pkg-config,
-		pkg-kde-tools,
-		qtbase5-dev
+Package: kscreen-system-settings
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-n4d, libedupals-base, n4d
+Description: Enable by n4d kscreen configuration to all system
+ kscreen by default not support settings to system. This package add 
+ support to replicate a user configuration to other system users.

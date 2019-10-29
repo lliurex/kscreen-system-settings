@@ -1,0 +1,3 @@
+python/MonitorSettings	/etc/n4d/conf.d/
+python/monitorsettings.py /usr/share/n4d/python-plugins/
+
