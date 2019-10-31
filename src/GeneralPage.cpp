@@ -25,7 +25,9 @@
 // From KDE
 #include <KPluginFactory>
 #include <KLocalizedString>
+#include <KMessageWidget>
 
+#include <QMetaObject>
 #include <iostream>
 #include <fstream>
 
@@ -57,22 +59,35 @@ GeneralPage::~GeneralPage()
 //
 void GeneralPage::load()
 {
-    variant::Variant result = client->call("MonitorSettings","getSettings");
-    if (result["status"].get_boolean()){
-        if (result["msg"]["mode"].get_string() == "allusers"){
-            systemConfigCheckBox->setChecked(true);
-            allusersRadioButton->setChecked(true);
-        }
-        else if(result["msg"]["mode"].get_string() == "newusers")
-        {
-            systemConfigCheckBox->setChecked(true);
-            newusersRadioButton->setChecked(true);
-        }
-        else{
-            systemConfigCheckBox->setChecked(false);
-            newusersRadioButton->setChecked(true);
-            toggleOptions();
-        }
+    bool status = client->running();
+    if (status)
+    {
+	    variant::Variant result = client->call("MonitorSettings","getSettings");
+	
+	    if (result["status"].get_boolean()){
+	        if (result["msg"]["mode"].get_string() == "allusers"){
+	            systemConfigCheckBox->setChecked(true);
+	            allusersRadioButton->setChecked(true);
+	        }
+	        else if(result["msg"]["mode"].get_string() == "newusers")
+	        {
+	            systemConfigCheckBox->setChecked(true);
+	            newusersRadioButton->setChecked(true);
+	        }
+	        else{
+	            systemConfigCheckBox->setChecked(false);
+	            newusersRadioButton->setChecked(true);
+	            toggleOptions();
+	        }
+	    }
+    }
+    else
+    {
+	    mainwidget->setEnabled(false);
+	    KMessageWidget *notificationwidget = new KMessageWidget(this);
+        notificationwidget->setText("N4D service is down.");
+        notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+        notifications->layout()->addWidget(notificationwidget);	
     }
     user = "";
     password = "";
@@ -129,7 +144,7 @@ void GeneralPage::save()
 
     }
     else{
-        
+	    QMetaObject::invokeMethod(this, "changed", Qt::QueuedConnection, Q_ARG(bool, true));
     }
 }
 
