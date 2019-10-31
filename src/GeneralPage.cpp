@@ -27,6 +27,7 @@
 #include <KLocalizedString>
 #include <KMessageWidget>
 
+#include <QIcon>
 #include <QMetaObject>
 #include <iostream>
 #include <fstream>
