@@ -24,6 +24,7 @@
 
 #include <KMessageWidget>
 
+#include <QIcon>
 #include <iostream>
 #include <QGraphicsOpacityEffect>
 #include <QThread>
