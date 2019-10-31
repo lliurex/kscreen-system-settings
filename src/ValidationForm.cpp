@@ -42,7 +42,7 @@ ValidationForm::ValidationForm(QWidget *parent)
     effect->setOpacity(0);
     notificationwidget->setGraphicsEffect(effect);
     user->setText(QString(getenv("USER")));
-    statusicon->setPixmap(QIcon::fromTheme("dialog-password").pixmap(40,40));
+    statusicon->setPixmap(QIcon::fromTheme("dialog-password").pixmap(65,65));
 }
 
 void ValidationForm::validateUser()
