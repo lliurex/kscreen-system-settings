@@ -84,7 +84,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="styleSheet">
-           <string notr="true">font: 200 11pt &quot;Noto Sans&quot;;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Password:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -147,10 +147,10 @@
       <item row="0" column="1">
        <widget class="QLabel" name="headertitle">
         <property name="styleSheet">
-         <string notr="true">font: 16pt &quot;Noto Sans&quot;;</string>
+         <string notr="true">font: 12pt &quot;Noto Sans&quot;;</string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authentication is required to run this action.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
