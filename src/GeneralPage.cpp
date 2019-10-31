@@ -83,8 +83,8 @@ void GeneralPage::load()
     }
     else
     {
-	mainwidget->setEnabled(false);
-	KMessageWidget notificationwidget(this);
+	    mainwidget->setEnabled(false);
+	    KMessageWidget *notificationwidget = new KMessageWidget(this);
         notificationwidget->setText("N4D service is down.");
         notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
         notifications->layout()->addWidget(notificationwidget);	
