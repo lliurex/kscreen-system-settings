@@ -1,3 +1,5 @@
 python/MonitorSettings	/etc/n4d/conf.d/
 python/monitorsettings.py /usr/share/n4d/python-plugins/
-
+python/kscreensystemsettings_fixerresolution /usr/bin
+python/kscreensystemsettings_updateresolution /usr/bin
+xsession/90fixresolution /etc/X11/Xsession.d/
