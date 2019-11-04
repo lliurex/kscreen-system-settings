@@ -5,6 +5,7 @@ Maintainer: LliureX Team <lliurex@gva.es>
 Build-Depends: debhelper (>= 10),
 		cmake,
                 libedupals-n4d-dev,
+		libedupals-n4d,
                 libedupals-base-dev,
                 extra-cmake-modules,
                 libkf5i18n-dev,
