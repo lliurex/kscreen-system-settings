@@ -19,7 +19,7 @@ Vcs-Browser: https://github.com/lliurex/kscreen-system-settings
 
 Package: kscreen-system-settings
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-n4d, libedupals-base, n4d
+Depends: ${shlibs:Depends}, ${misc:Depends}, libedupals-n4d, libedupals-base, n4d, python3-pyinotify
 Description: Enable by n4d kscreen configuration to all system
  kscreen by default not support settings to system. This package add 
  support to replicate a user configuration to other system users.
