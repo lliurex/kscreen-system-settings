@@ -31,6 +31,7 @@
 #include <QMetaObject>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 using namespace edupals;
 using namespace std;
@@ -138,6 +139,7 @@ void GeneralPage::save()
         }
         if(ok)
         {
+            system("kscreensystemsettings_updateresolution&");
             fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
             fs << result["msg"].get_string() << endl;
             fs.close();
