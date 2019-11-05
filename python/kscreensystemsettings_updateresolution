@@ -32,8 +32,7 @@ class EventHandler(pyinotify.ProcessEvent):
         try :
             with codecs.open(identifier,'r',encoding='utf-8') as fd:
                 config = json.load(fd)
-            print(os.path.basename(identifier),config)
-            #result = self.n4d.updateResolution('','MonitorSettings',os.path.basename(identifier), config, self.masterkey)
+            result = self.n4d.updateResolution('','MonitorSettings',os.path.basename(identifier), config, self.masterkey)
             if result['status']:
                 self.masterkey = result['msg']
                 with codecs.open(masterkeypath,'w',encoding='utf-8') as fd:
