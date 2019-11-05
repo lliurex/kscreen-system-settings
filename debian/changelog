@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.3) bionic; urgency=medium
+
+  * Execute updateresolution on save method on kcmodule
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Tue, 05 Nov 2019 13:24:31 +0100
+
 kscreen-system-settings (0.1.2) bionic; urgency=medium
 
   * Fixed bugs
