@@ -64,6 +64,12 @@ void GeneralPage::load()
     bool status = client->running();
     if (status)
     {
+	    vector<variant::Variant> args = {"SRV_IP"};
+	    variant::Variant remote = client->call("VariablesManager","get_variable",args);
+	    if (remote.type() != variant::Type::None)
+	    {
+    		client = new n4d::Client("https://"+ remote.get_string(),9779);
+	    }
 	    variant::Variant result = client->call("MonitorSettings","getSettings");
 	
 	    if (result["status"].get_boolean()){
