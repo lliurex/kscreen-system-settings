@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.6) bionic; urgency=medium
+
+  * Connect to remote server on classroom model
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Wed, 06 Nov 2019 14:42:28 +0100
+
 kscreen-system-settings (0.1.5) bionic; urgency=medium
 
   * Fix problem with sync on classroom model
