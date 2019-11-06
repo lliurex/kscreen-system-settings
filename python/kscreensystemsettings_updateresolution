@@ -42,6 +42,10 @@ class EventHandler(pyinotify.ProcessEvent):
 
 n4d = ServerProxy('https://localhost:9779', context=ssl._create_unverified_context(), allow_none=True)
 
+result = n4d.get_variable("","VariablesManager","SRV_IP")
+if result != None:
+    n4d = ServerProxy('https://{server}:9779'.format(server=result),context=ssl._create_unverified_context(),allow_none=True)
+
 with codecs.open(masterkeypath,'r',encoding='utf-8') as fd:
     masterkey = fd.readline().strip()
 
