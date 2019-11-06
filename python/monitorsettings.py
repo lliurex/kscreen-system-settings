@@ -17,10 +17,14 @@ class MonitorSettings:
         else:
             globalSettings['configurations'][identifier] = settings
             objects['VariablesManager'].set_variable('MONITORSETTINGS', globalSettings)
-        newhash = "%032x"%random.getrandbits(256)
-        with open(self.secretpath,'w') as fd:
-            fd.write(newhash+"\n")
-        os.chmod(self.secretpath,0o660)
+        if not os.path.exists(self.secretpath):
+            newhash = "%032x"%random.getrandbits(256)
+            with open(self.secretpath,'w') as fd:
+                fd.write(newhash+"\n")
+            os.chmod(self.secretpath,0o660)
+        else:
+            with open(self.secretpath,'r') as fd:
+                newhash = fd.readline().strip()
         return {'status':True, 'msg': newhash}
 
     def updateResolution(self, settings, identifier, master_key):
