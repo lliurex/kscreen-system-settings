@@ -9,6 +9,11 @@ import json
 import pathlib
 
 n4d = ServerProxy('https://localhost:9779', context=ssl._create_unverified_context(), allow_none=True)
+
+result = n4d.get_variable("","VariablesManager","SRV_IP")
+if result != None:
+    n4d = ServerProxy('https://{server}:9779'.format(server=result),context=ssl._create_unverified_context(),allow_none=True)
+
 result = n4d.getSettings('','MonitorSettings')
 if not result['status']:
     sys.exit(0) 
