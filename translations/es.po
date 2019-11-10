@@ -82,7 +82,7 @@ msgid ""
 "required to run this action.</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Se necesita autenticar"
-"para ejecutar esta accion.</span></p></body></html>"
+" para ejecutar esta accion.</span></p></body></html>"
 
 #: translations/rc.cpp:28 rc.cpp:28
 msgctxt "Raul Rodrigo Segura"
