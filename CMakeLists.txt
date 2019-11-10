@@ -32,24 +32,23 @@ IF(NOT GETTEXT_MSGFMT_EXECUTABLE)
                  NOTE: msgfmt not found. Translations will *not* be installed
 ------")
 ELSE(NOT GETTEXT_MSGFMT_EXECUTABLE)
-
-        FILE(GLOB PO_FILES *.po)
+        FILE(GLOB PO_FILES translations/*.po)
         SET(GMO_FILES)
-
         FOREACH(_poFile ${PO_FILES})
                 GET_FILENAME_COMPONENT(_poFileName ${_poFile} NAME)
 		STRING(REGEX REPLACE "^${TRANSLATION_DOMAIN}_?" "" _langCode ${_poFileName} )
                 STRING(REGEX REPLACE "\\.po$" "" _langCode ${_langCode} )
-
+		message(${_langCode})
                 IF( _langCode )
                         GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)
                         SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo)
-
-                        ADD_CUSTOM_COMMAND(TARGET ${_gmoFile}
+			message("comando ${GETTEXT_MSGFMT_EXECUTABLE} -  ${_poFile} -  ${_poFile}")
+			ADD_CUSTOM_COMMAND(OUTPUT ${_gmoFile}
                                 COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} --check -o ${_gmoFile} ${_poFile}
-                                DEPENDS ${_poFile})
+				DEPENDS ${_poFile})
 			INSTALL(FILES ${_gmoFile} DESTINATION ${LOCALE_INSTALL_DIR}/${_langCode}/LC_MESSAGES/ RENAME ${TRANSLATION_DOMAIN}.mo)
-                        LIST(APPEND GMO_FILES ${_gmoFile})
+			message("Aqui no llega")
+			LIST(APPEND GMO_FILES ${_gmoFile})
                 ENDIF( _langCode )
 
         ENDFOREACH(_poFile ${PO_FILES})
