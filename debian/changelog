@@ -1,3 +1,10 @@
+kscreen-system-settings (0.1.7) bionic; urgency=medium
+
+  * Fix translations charset
+  * Define correctly dekstop file
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Mon, 11 Nov 2019 17:28:28 +0100
+
 kscreen-system-settings (0.1.6) bionic; urgency=medium
 
   * Connect to remote server on classroom model
