@@ -15,7 +15,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. i18n: file: kscreensystem.ui:20
@@ -82,7 +82,7 @@ msgid ""
 "required to run this action.</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Se necesita autenticar"
-"para ejecutar esta accion.</span></p></body></html>"
+" para ejecutar esta accion.</span></p></body></html>"
 
 #: translations/rc.cpp:28 rc.cpp:28
 msgctxt "Raul Rodrigo Segura"
