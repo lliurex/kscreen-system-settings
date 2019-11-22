@@ -47,6 +47,6 @@ class MonitorSettings:
     def getSettings(self):
         result = objects['VariablesManager'].get_variable('MONITORSETTINGS')
         if result is None:
-            result = {'mode':'newusers','configurations':{}}
+            result = {'mode':'nobody','configurations':{}}
         return {'status':True, 'msg':result}
 
