@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.8) bionic; urgency=medium
+
+  * Set by default not configured on gui
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Fri, 22 Nov 2019 13:30:14 +0100
+
 kscreen-system-settings (0.1.7) bionic; urgency=medium
 
   * Fix translations charset
