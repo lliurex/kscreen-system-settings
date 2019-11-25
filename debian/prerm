@@ -19,8 +19,8 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
-            n4d-modules disable-plugin /etc/n4d/conf.d/MonitorSettings || true
-            n4d-modules disable-control MonitorSettings || true
+            #n4d-modules disable-plugin /etc/n4d/conf.d/MonitorSettings || true
+            #n4d-modules disable-control MonitorSettings || true
     ;;
 
     failed-upgrade)
