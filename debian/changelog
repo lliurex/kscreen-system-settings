@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.9) bionic; urgency=medium
+
+  * Add postinst to enable module
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Mon, 25 Nov 2019 13:56:40 +0100
+
 kscreen-system-settings (0.1.8) bionic; urgency=medium
 
   * Set by default not configured on gui
