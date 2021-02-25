@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.9.1) bionic; urgency=medium
+
+  * Dummy upgrade to force linking with libedupals-base2
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 25 Feb 2021 11:52:56 +0100
+
 kscreen-system-settings (0.1.9) bionic; urgency=medium
 
   * Add postinst to enable module
