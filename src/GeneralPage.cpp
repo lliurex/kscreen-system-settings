@@ -118,7 +118,7 @@ void GeneralPage::load()
 	    catch(...){
 		     	mainwidget->setEnabled(false);
 			KMessageWidget *notificationwidget = new KMessageWidget(this);
-			notificationwidget->setText("An expected error has ocurred.");
+			notificationwidget->setText("An unexpected error has ocurred.");
 			notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
 			notifications->layout()->addWidget(notificationwidget);	
 
