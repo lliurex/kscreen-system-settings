@@ -1,0 +1,33 @@
+{
+	"SETUP":{
+		"type":"python",
+		"path":"MonitorSettings.py",
+		"class":"MonitorSettings"
+	},
+	"METHODS":{
+		"saveResolution":{
+			"allowed_groups":[
+				"sudo",
+				"admins",
+				"teachers"
+			]
+		},	
+		"updateResolution":{
+			"allowed_groups":[
+				"anonymous"
+			]
+		},
+		"saveMode":{
+			"allowed_groups":[
+				"sudo",
+				"admins",
+				"teachers"
+			]
+		},
+		"getSettings":{
+			"allowed_groups":[
+				"anonymous"
+			]
+		}
+	}
+}
