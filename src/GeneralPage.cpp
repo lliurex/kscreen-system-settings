@@ -48,7 +48,10 @@ GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
     setButtons(Apply);
     setupUi(this);
     fillUi();
-    client = new n4d::Client("https://localhost",9779);
+   /* client = new n4d::Client("https://localhost",9779);*/
+   client = new n4d::Client("https://localhost:9779");
+
+	
 }
 
 GeneralPage::~GeneralPage()
@@ -62,18 +65,24 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     bool status = client->running();
-    if (status)
+
+    if ( status)
     {
+	   /*
 	    vector<variant::Variant> args = {"SRV_IP"};
 	    variant::Variant remote = client->call("VariablesManager","get_variable",args);
+	    */
+	    variant::Variant remote = client->get_variable("SRV_IP",false);
+	    
 	    if (remote.type() != variant::Type::None)
 	    {
-    		client = new n4d::Client("https://"+ remote.get_string(),9779);
+    		client = new n4d::Client("https://"+ remote.get_string()+":9779");
 	    }
-	    variant::Variant result = client->call("MonitorSettings","getSettings");
-	
+	    
+	   variant::Variant result = client->call("MonitorSettings","getSettings");
+	   /*	
 	    if (result["status"].get_boolean()){
-	        if (result["msg"]["mode"].get_string() == "allusers"){
+	        if (result["return"]["mode"].get_string() == "allusers"){
 	            systemConfigCheckBox->setChecked(true);
 	            allusersRadioButton->setChecked(true);
 	        }
@@ -88,15 +97,42 @@ void GeneralPage::load()
 	            toggleOptions();
 	        }
 	    }
+	    */
+	    try{
+			
+			if (result["mode"].get_string() == "allusers"){  
+			    systemConfigCheckBox->setChecked(true);
+			    allusersRadioButton->setChecked(true);
+			}
+			else if(result["mode"].get_string() == "newusers")
+			{
+				systemConfigCheckBox->setChecked(true);
+				newusersRadioButton->setChecked(true);
+			}
+			else{
+				systemConfigCheckBox->setChecked(false);
+				newusersRadioButton->setChecked(true);
+				toggleOptions();
+			}
+	   }
+	    catch(...){
+		     	mainwidget->setEnabled(false);
+			KMessageWidget *notificationwidget = new KMessageWidget(this);
+			notificationwidget->setText("An expected error has ocurred.");
+			notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+			notifications->layout()->addWidget(notificationwidget);	
+
+	}
     }
-    else
-    {
+    else{
+	      
 	    mainwidget->setEnabled(false);
 	    KMessageWidget *notificationwidget = new KMessageWidget(this);
-        notificationwidget->setText("N4D service is down.");
-        notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
-        notifications->layout()->addWidget(notificationwidget);	
-    }
+            notificationwidget->setText("N4D service is down.");
+            notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+            notifications->layout()->addWidget(notificationwidget);	
+	
+}
     user = "";
     password = "";
 }
@@ -120,22 +156,30 @@ void GeneralPage::save()
     }
     if (user != "" )
     {
-        n4d::auth::Credential credential(user,password);
-        vector<variant::Variant> mode = {getMode()};
-        client->call("MonitorSettings","saveMode", mode, credential);
-        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
+        /*n4d::auth::Credential credential(user,password);*/
+	client = new n4d::Client("https://localhost:9779",user,password);    
+	vector<variant::Variant> mode = {getMode()};
+        client->call("MonitorSettings","saveMode", mode);
+	string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
         auto files = filesystem::glob(resolutionfolders);
         variant::Variant result;
-        for (auto file : files) 
+	bool ok = false;
+	for (auto file : files) 
         {
             fstream fb;
 	    fb.open(file.string(),ios::in);
             if(fb.is_open()){
                 variant::Variant configuration = json::load(fb);
                 vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
-                result = client->call("MonitorSettings","saveResolution",arguments,credential);
+                try{
+			result = client->call("MonitorSettings","saveResolution",arguments);
+			ok=true;
+		}catch(...){
+			ok=false;
+		}
             }   
         }
+	/*
         bool ok = false;
         try{
             ok = result["status"].get_boolean();
@@ -143,11 +187,12 @@ void GeneralPage::save()
         catch (...){
             ok = false;
         }
+	*/
         if(ok)
         {
             system("kscreensystemsettings_updateresolution&");
             fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
-            fs << result["msg"].get_string() << endl;
+            fs << result.get_string() << endl;
             fs.close();
         }
 

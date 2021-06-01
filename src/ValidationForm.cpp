@@ -57,7 +57,7 @@ void ValidationForm::validateUser()
 
 void ValidationForm::n4dDone(bool result)
 {
-     if (result){
+    if (result){
         this->done(1);
     }
     else{
