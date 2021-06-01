@@ -1,3 +1,9 @@
+kscreen-system-settings (0.1.19.1) focal; urgency=medium
+
+  * Initial release for focal
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 01 Jun 2021 15:51:31 +0200
+
 kscreen-system-settings (0.1.9.1) bionic; urgency=medium
 
   * Dummy upgrade to force linking with libedupals-base2
