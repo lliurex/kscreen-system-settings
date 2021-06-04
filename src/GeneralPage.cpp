@@ -76,7 +76,10 @@ void GeneralPage::load()
 	    
 	    if (remote.type() != variant::Type::None)
 	    {
-    		client = new n4d::Client("https://"+ remote.get_string()+":9779");
+    		address="https://"+ remote.get_string()+":9779";
+    		client = new n4d::Client(address);
+	    }else{
+	    	address="https://localhost:9779";
 	    }
 	    
 	   variant::Variant result = client->call("MonitorSettings","getSettings");
@@ -157,7 +160,7 @@ void GeneralPage::save()
     if (user != "" )
     {
         /*n4d::auth::Credential credential(user,password);*/
-	client = new n4d::Client("https://localhost:9779",user,password);    
+	client = new n4d::Client(address,user,password);    
 	vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode);
 	string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
