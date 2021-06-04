@@ -43,6 +43,7 @@ private:
     string password;
     n4d::Client *client;
     string getMode();
+    string address;
 
 private slots:
     void toggleOptions();
