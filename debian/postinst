@@ -21,7 +21,7 @@ set -e
 case "$1" in
     configure)
 	    n4d-modules enable-plugin /etc/n4d/conf.d/MonitorSettings.json || true
-	    n4d-modules enable-control MonitorSettings || true
+	    n4d-modules enable-control MonitorSettings.json || true
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
