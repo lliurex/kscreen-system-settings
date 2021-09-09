@@ -72,18 +72,17 @@ void GeneralPage::load()
 	    vector<variant::Variant> args = {"SRV_IP"};
 	    variant::Variant remote = client->call("VariablesManager","get_variable",args);
 	    */
-	    variant::Variant remote = client->get_variable("SRV_IP",false);
-	    
-	    if (remote.type() != variant::Type::None)
-	    {
+	    try{
+            	variant::Variant remote = client->get_variable("SRV_IP",false);
     		address="https://"+ remote.get_string()+":9779";
-    		client = new n4d::Client(address);
-	    }else{
+	    catch (n4d::exception::callfailed e){
 	    	address="https://localhost:9779";
 	    }
 	    
-	   variant::Variant result = client->call("MonitorSettings","getSettings");
-	   /*	
+    	    client = new n4d::Client(address);
+	    
+	    variant::Variant result = client->call("MonitorSettings","getSettings");
+	    /*	
 	    if (result["status"].get_boolean()){
 	        if (result["return"]["mode"].get_string() == "allusers"){
 	            systemConfigCheckBox->setChecked(true);
@@ -117,7 +116,7 @@ void GeneralPage::load()
 				newusersRadioButton->setChecked(true);
 				toggleOptions();
 			}
-	   }
+	    }
 	    catch(...){
 		     	mainwidget->setEnabled(false);
 			KMessageWidget *notificationwidget = new KMessageWidget(this);
