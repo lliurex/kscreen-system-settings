@@ -1,33 +1,32 @@
 #!/usr/bin/env python3
-from xmlrpc.client import ServerProxy
-import ssl
 import os
 import sys
 import pyinotify
 import json
 import syslog
 import codecs
+import n4d.client
+from pathlib import Path
 
-home = os.environ['HOME']
-masterkeypath = '{home}/.config/kscreensystem'.format(home=home)
-
-if not os.path.exists(masterkeypath):
-    sys.exit(0)
-
-class EventHandler(pyinotify.ProcessEvent):
+class EventHandler( pyinotify.ProcessEvent ):
     def my_init(self, n4d, masterkey):
         self.n4d = n4d
         self.masterkey = masterkey
 
-    def process_IN_CLOSE_WRITE(self, event):
-        self.saveConfig(event.pathname)
+    def process_IN_CLOSE_WRITE( self, event ):
+        self.saveConfig(Path(event.pathname))
 
-    def saveConfig(self,identifier):
+    def saveConfig( self, identifier ):
         config = {}
         try :
-            with codecs.open(identifier,'r',encoding='utf-8') as fd:
+            with identifier.open('r',encoding='utf-8') as fd:
                 config = json.load(fd)
-            result = self.n4d.updateResolution('','MonitorSettings',config, os.path.basename(identifier), self.masterkey)
+            filetype = "config"
+            if "output" in identifier:
+                filetype = "outputs"
+            if "control" in identifier:
+                filetype = "control"
+            result = self.n4d.MonitorSettings.updateResolution( config, identifier.name, self.masterkey, filetype )
             if result['status']:
                 self.masterkey = result['msg']
                 with codecs.open(masterkeypath,'w',encoding='utf-8') as fd:
@@ -39,18 +38,25 @@ class EventHandler(pyinotify.ProcessEvent):
             syslog.syslog(str(e))
 
 
+if __name__== "__main__":
+    home = os.environ['HOME']
+    masterkeypath = Path('{home}/.config/kscreensystem'.format(home=home))
 
-n4d = ServerProxy('https://localhost:9779', context=ssl._create_unverified_context(), allow_none=True)
+    if not masterkeypath.exists():
+        sys.exit(0)
 
-result = n4d.get_variable("","VariablesManager","SRV_IP")
-if result != None:
-    n4d = ServerProxy('https://{server}:9779'.format(server=result),context=ssl._create_unverified_context(),allow_none=True)
+    client = n4d.client.Client('https://localhost:9779')
+    try:
+        result = client.get_variable("SRV_IP")
+        client = n4d.client.Client('https://{server}:9779'.format(server=result))
+    except:
+        pass
 
-with codecs.open(masterkeypath,'r',encoding='utf-8') as fd:
-    masterkey = fd.readline().strip()
+    with masterkeypath.open('r',encoding='utf-8') as fd:
+        masterkey = fd.readline().strip()
 
-wm = pyinotify.WatchManager()
-handler = EventHandler(n4d=n4d, masterkey=masterkey)
-notifier = pyinotify.Notifier(wm, default_proc_fun=handler)
-wm.add_watch('{home}/.local/share/kscreen'.format(home=home), pyinotify.IN_CLOSE_WRITE)
-notifier.loop()
+    wm = pyinotify.WatchManager()
+    handler = EventHandler( n4d=client, masterkey=masterkey )
+    notifier = pyinotify.Notifier( wm, default_proc_fun=handler )
+    wm.add_watch('{home}/.local/share/kscreen'.format(home=home), pyinotify.IN_CLOSE_WRITE, rec=True, auto_add=True)
+    notifier.loop()

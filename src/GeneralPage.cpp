@@ -32,6 +32,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <sys/stat.h>
 
 using namespace edupals;
 using namespace std;
@@ -75,54 +76,37 @@ void GeneralPage::load()
 	    try{
             	variant::Variant remote = client->get_variable("SRV_IP",false);
     		address="https://"+ remote.get_string()+":9779";
-	    catch (n4d::exception::callfailed e){
+	    }
+	    catch (...){
 	    	address="https://localhost:9779";
 	    }
 	    
     	    client = new n4d::Client(address);
-	    
-	    variant::Variant result = client->call("MonitorSettings","getSettings");
-	    /*	
-	    if (result["status"].get_boolean()){
-	        if (result["return"]["mode"].get_string() == "allusers"){
-	            systemConfigCheckBox->setChecked(true);
-	            allusersRadioButton->setChecked(true);
-	        }
-	        else if(result["msg"]["mode"].get_string() == "newusers")
-	        {
-	            systemConfigCheckBox->setChecked(true);
-	            newusersRadioButton->setChecked(true);
-	        }
-	        else{
-	            systemConfigCheckBox->setChecked(false);
-	            newusersRadioButton->setChecked(true);
-	            toggleOptions();
-	        }
-	    }
-	    */
+	    variant::Variant arguments = {"config"}; 
+	    variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
 	    try{
 			
-			if (result["mode"].get_string() == "allusers"){  
-			    systemConfigCheckBox->setChecked(true);
-			    allusersRadioButton->setChecked(true);
-			}
-			else if(result["mode"].get_string() == "newusers")
-			{
-				systemConfigCheckBox->setChecked(true);
-				newusersRadioButton->setChecked(true);
-			}
-			else{
-				systemConfigCheckBox->setChecked(false);
-				newusersRadioButton->setChecked(true);
-				toggleOptions();
-			}
+		if (result["mode"].get_string() == "allusers"){  
+		    systemConfigCheckBox->setChecked(true);
+		    allusersRadioButton->setChecked(true);
+		}
+		else if(result["mode"].get_string() == "newusers")
+		{
+			systemConfigCheckBox->setChecked(true);
+			newusersRadioButton->setChecked(true);
+		}
+		else{
+			systemConfigCheckBox->setChecked(false);
+			newusersRadioButton->setChecked(true);
+			toggleOptions();
+		}
 	    }
 	    catch(...){
-		     	mainwidget->setEnabled(false);
-			KMessageWidget *notificationwidget = new KMessageWidget(this);
-			notificationwidget->setText("An unexpected error has ocurred.");
-			notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
-			notifications->layout()->addWidget(notificationwidget);	
+	     	mainwidget->setEnabled(false);
+		KMessageWidget *notificationwidget = new KMessageWidget(this);
+		notificationwidget->setText("An unexpected error has ocurred.");
+		notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+		notifications->layout()->addWidget(notificationwidget);	
 
 	}
     }
@@ -162,25 +146,15 @@ void GeneralPage::save()
 	client = new n4d::Client(address,user,password);    
 	vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode);
-	string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
-        auto files = filesystem::glob(resolutionfolders);
+	string settings_path = string(getenv("HOME")) + "/.local/share/kscreen";
+	string outputs_path = string(getenv("HOME"))+"/.local/share/kscreen/outputs";
+	string control_path = string(getenv("HOME"))+"/.local/share/kscreen/control/configs";
         variant::Variant result;
-	bool ok = false;
-	for (auto file : files) 
-        {
-            fstream fb;
-	    fb.open(file.string(),ios::in);
-            if(fb.is_open()){
-                variant::Variant configuration = json::load(fb);
-                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
-                try{
-			result = client->call("MonitorSettings","saveResolution",arguments);
-			ok=true;
-		}catch(...){
-			ok=false;
-		}
-            }   
-        }
+	bool ok = true;
+
+	if (!GeneralPage::process_dir(settings_path, result, client, "config")) ok = false;
+	if (!GeneralPage::process_dir(outputs_path, result, client, "outputs")) ok = false;
+	if (!GeneralPage::process_dir(control_path, result, client, "control")) ok = false;
 	/*
         bool ok = false;
         try{
@@ -220,6 +194,38 @@ string GeneralPage::getMode(){
     }
 }
 
+
+bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype ){
+
+	bool ok = true;
+        auto files = filesystem::glob(path + "/*");
+	for (auto file : files) 
+        {
+	    if (GeneralPage::is_dir(file)) continue;
+            fstream fb;
+	    fb.open(file.string(),ios::in);
+            if(fb.is_open()){
+                variant::Variant configuration = json::load(fb);
+                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename()), filetype};
+                try{
+			result = client->call("MonitorSettings","saveResolution",arguments);
+		}catch(...){
+			ok=false;
+		}
+            }   
+        }
+	return ok;
+}
+
+
+
+bool GeneralPage::is_dir(string path){
+	struct stat st;
+	if (stat(path, &st) == 0 && (st.st_mode & S_IFDIR){
+		return true ;
+	}
+	return false;
+}
 
 //
 // This function write default values into n4d

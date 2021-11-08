@@ -1,24 +1,34 @@
 #!/usr/bin/env python3
 
-from xmlrpc.client import ServerProxy
-import ssl
 import os
 import sys
-import codecs
 import json
-import pathlib
+from pathlib import Path
+import n4d.client
 
-n4d = ServerProxy('https://localhost:9779', context=ssl._create_unverified_context(), allow_none=True)
 
-result = n4d.get_variable("","VariablesManager","SRV_IP")
-if result != None:
-    n4d = ServerProxy('https://{server}:9779'.format(server=result),context=ssl._create_unverified_context(),allow_none=True)
+n4d = n4d.client.Client('https://localhost:9779')
 
-result = n4d.getSettings('','MonitorSettings')
-if not result['status']:
+try:
+    result = n4d.get_variable("SRV_IP")
+    n4d = n4d.client.Client('https://{server}:9779'.format(server=result))
+except:
+    pass
+
+try:
+    global_settings = n4d.MonitorSettings.getSettings("config")
+    
+    output_settings = n4d.MonitorSettings.getSettings("outputs")
+    if not isinstance( output_settings, list ):
+       output_settings = []
+
+    control_settings = n4d.MonitorSettings.getSettings("control")
+    if not isinstance( control_settings, list):
+        control_settings = []
+except:
     sys.exit(0) 
 
-settings = result['msg']
+settings = global_settings
 home = os.environ['HOME']
 if settings['mode'] is None:
     sys.exit(0)
@@ -26,10 +36,31 @@ else:
     if settings['mode'] != 'newusers' and settings['mode'] != 'allusers':
         sys.exit(0)
 
-    pathlib.Path('{home}/.local/share/kscreen/'.format(home=home)).mkdir(parents=True, exist_ok=True)
+    destination_config = Path('{home}/.local/share/kscreen'.format(home=home))
+    destination_config.mkdir(parents=True, exist_ok=True)
     for identifier,content in settings['configurations'].items():
-        filepath = '{home}/.local/share/kscreen/{identifier}'.format(home=home,identifier=identifier)
-        if settings['mode'] == 'newusers' and os.path.exists(filepath):
+        filepath = destination_config.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
             continue
-        with codecs.open(filepath,'w',encoding='utf-8') as fd:
+        with filepath.open('w',encoding='utf-8') as fd:
             json.dump(content,fd,indent=4)
+
+    destination_output = destination_config.joinpath("outputs")
+    destination_output.mkdir(parents=True, exist_ok=True)
+    for identifier,content in output_settings:
+        filepath = destination_output.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
+            continue
+        with filepath.open('w',encoding='utf-8') as fd:
+            json.dump(content, fd, indent=4)
+
+    destination_control = destination_config.joinpath("control").joinpath("configs")
+    destination_control.mkdir(parents=True,exist_ok=True)
+    for identifier,content in control_settings:
+        filepath = destination_control.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
+            continue
+        with filepath.open('w',encoding='utf-8') as fd:
+            json.dump(content, fd, indent=4)
+
+

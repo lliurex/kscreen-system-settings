@@ -44,6 +44,8 @@ private:
     n4d::Client *client;
     string getMode();
     string address;
+    bool process_dir();
+    bool is_dir();
 
 private slots:
     void toggleOptions();
