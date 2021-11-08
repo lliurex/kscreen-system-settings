@@ -152,9 +152,9 @@ void GeneralPage::save()
         variant::Variant result;
 	bool ok = true;
 
-	if (!GeneralPage::process_dir(settings_path, result, client, "config")) ok = false;
-	if (!GeneralPage::process_dir(outputs_path, result, client, "outputs")) ok = false;
-	if (!GeneralPage::process_dir(control_path, result, client, "control")) ok = false;
+	if (!process_dir(settings_path, result, client, "config")) ok = false;
+	if (!process_dir(outputs_path, result, client, "outputs")) ok = false;
+	if (!process_dir(control_path, result, client, "control")) ok = false;
 	/*
         bool ok = false;
         try{
@@ -201,7 +201,7 @@ bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Clien
         auto files = filesystem::glob(path + "/*");
 	for (auto file : files) 
         {
-	    if (GeneralPage::is_dir(file)) continue;
+	    if (is_dir(file)) continue;
             fstream fb;
 	    fb.open(file.string(),ios::in);
             if(fb.is_open()){
