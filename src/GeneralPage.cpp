@@ -82,7 +82,7 @@ void GeneralPage::load()
 	    }
 	    
     	    client = new n4d::Client(address);
-	    variant::Variant arguments = {"config"}; 
+	    vector<variant::Variant> arguments = {"config"}; 
 	    variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
 	    try{
 			
