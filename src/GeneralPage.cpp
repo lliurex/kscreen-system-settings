@@ -32,10 +32,11 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <sys/stat.h>
+#include <filesystem.hpp>
 
 using namespace edupals;
 using namespace std;
+namespace fs=std::experimental::filesystem;
 
 
 K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
@@ -201,7 +202,7 @@ bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Clien
         auto files = filesystem::glob(path + "/*");
 	for (auto file : files) 
         {
-	    if (is_dir(file)) continue;
+	    if (fs::is_directory(fs::path(file))) continue;
             fstream fb;
 	    fb.open(file.string(),ios::in);
             if(fb.is_open()){
@@ -218,14 +219,6 @@ bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Clien
 }
 
 
-
-bool GeneralPage::is_dir(string path){
-	struct stat st;
-	if (stat(path, &st) == 0 && (st.st_mode & S_IFDIR){
-		return true ;
-	}
-	return false;
-}
 
 //
 // This function write default values into n4d
