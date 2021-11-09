@@ -22,9 +22,9 @@ class EventHandler( pyinotify.ProcessEvent ):
             with identifier.open('r',encoding='utf-8') as fd:
                 config = json.load(fd)
             filetype = "config"
-            if "output" in identifier:
+            if "output" in str(identifier):
                 filetype = "outputs"
-            if "control" in identifier:
+            if "control" in str(identifier):
                 filetype = "control"
             result = self.n4d.MonitorSettings.updateResolution( config, identifier.name, self.masterkey, filetype )
             if result['status']:
