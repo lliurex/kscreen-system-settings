@@ -70,15 +70,16 @@ void GeneralPage::load()
 	    {
     		client = new n4d::Client("https://"+ remote.get_string(),9779);
 	    }
-	    variant::Variant result = client->call("MonitorSettings","getSettings");
-	
-	    if (result["status"].get_boolean()){
+	    
+	    vector<variant::Variant> arguments = {"config"}; 
+	    variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
+		
+	    try{
 	        if (result["msg"]["mode"].get_string() == "allusers"){
 	            systemConfigCheckBox->setChecked(true);
 	            allusersRadioButton->setChecked(true);
 	        }
-	        else if(result["msg"]["mode"].get_string() == "newusers")
-	        {
+	        else if(result["msg"]["mode"].get_string() == "newusers"){
 	            systemConfigCheckBox->setChecked(true);
 	            newusersRadioButton->setChecked(true);
 	        }
@@ -88,11 +89,18 @@ void GeneralPage::load()
 	            toggleOptions();
 	        }
 	    }
+	    catch(...){
+	 	mainwidget->setEnabled(false);
+		KMessageWidget *notificationwidget = new KMessageWidget(this);
+		notificationwidget->setText("An unexpected error has ocurred.");
+		notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+		notifications->layout()->addWidget(notificationwidget);	
+	    }
     }
     else
     {
-	    mainwidget->setEnabled(false);
-	    KMessageWidget *notificationwidget = new KMessageWidget(this);
+        mainwidget->setEnabled(false);
+        KMessageWidget *notificationwidget = new KMessageWidget(this);
         notificationwidget->setText("N4D service is down.");
         notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
         notifications->layout()->addWidget(notificationwidget);	
@@ -123,19 +131,16 @@ void GeneralPage::save()
         n4d::auth::Credential credential(user,password);
         vector<variant::Variant> mode = {getMode()};
         client->call("MonitorSettings","saveMode", mode, credential);
-        string resolutionfolders = string(getenv("HOME")) + "/.local/share/kscreen/*";
-        auto files = filesystem::glob(resolutionfolders);
+	string settings_path = string(getenv("HOME")) + "/.local/share/kscreen";
+	string outputs_path = string(getenv("HOME"))+"/.local/share/kscreen/outputs";
+	string control_path = string(getenv("HOME"))+"/.local/share/kscreen/control/configs";
         variant::Variant result;
-        for (auto file : files) 
-        {
-            fstream fb;
-	    fb.open(file.string(),ios::in);
-            if(fb.is_open()){
-                variant::Variant configuration = json::load(fb);
-                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename())};
-                result = client->call("MonitorSettings","saveResolution",arguments,credential);
-            }   
-        }
+	bool ok = true;
+
+	if (!process_dir(settings_path, result, client, "config")) ok = false;
+	if (!process_dir(outputs_path, result, client, "outputs")) ok = false;
+	if (!process_dir(control_path, result, client, "control")) ok = false;
+	/*
         bool ok = false;
         try{
             ok = result["status"].get_boolean();
@@ -143,6 +148,7 @@ void GeneralPage::save()
         catch (...){
             ok = false;
         }
+	*/
         if(ok)
         {
             system("kscreensystemsettings_updateresolution&");
@@ -173,7 +179,27 @@ string GeneralPage::getMode(){
     }
 }
 
+bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype ){
 
+	bool ok = true;
+        auto files = filesystem::glob(path + "/*");
+	for (auto file : files) 
+        {
+	    if (fs::is_directory(fs::path(file))) continue;
+            fstream fb;
+	    fb.open(file.string(),ios::in);
+            if(fb.is_open()){
+                variant::Variant configuration = json::load(fb);
+                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename()), filetype};
+                try{
+			result = client->call("MonitorSettings","saveResolution",arguments);
+		}catch(...){
+			ok=false;
+		}
+            }   
+        }
+	return ok;
+}
 //
 // This function write default values into n4d
 //

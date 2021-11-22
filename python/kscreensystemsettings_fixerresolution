@@ -14,9 +14,22 @@ result = n4d.get_variable("","VariablesManager","SRV_IP")
 if result != None:
     n4d = ServerProxy('https://{server}:9779'.format(server=result),context=ssl._create_unverified_context(),allow_none=True)
 
-result = n4d.getSettings('','MonitorSettings')
-if not result['status']:
-    sys.exit(0) 
+global_settings = n4d.getSettings('','MonitorSettings',"config")
+if not global_settings['status']: 
+    sys.exit(0)
+
+ouput_settings = n4d.getSettings('','MonitorSettings',"outputs")
+if not output_settings['status']: 
+    sys.exit(0)
+if not isinstance( output_settings, dict ):
+    output_settings = {"msg":{"configurations":{}}}
+
+control_settings = n4d.getSettings('','MonitorSettings',"control")
+if not control_settings['status']: 
+    sys.exit(0)
+if not isinstance( control_settings, dict ):
+    control_settings = {"msg":{"configurations":{}}}
+
 
 settings = result['msg']
 home = os.environ['HOME']
@@ -26,6 +39,45 @@ else:
     if settings['mode'] != 'newusers' and settings['mode'] != 'allusers':
         sys.exit(0)
 
+    destination_config = Path('{home}/.local/share/kscreen'.format(home=home))
+    destination_config.mkdir(parents=True, exist_ok=True)
+    for identifier,content in settings['configurations'].items():
+        filepath = destination_config.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
+            continue
+        with filepath.open('w',encoding='utf-8') as fd:
+            json.dump(content,fd,indent=4)
+
+    destination_output = destination_config.joinpath("outputs")
+    destination_output.mkdir(parents=True, exist_ok=True)
+    for identifier,content in output_settings["msg"]['configurations'].items():
+        filepath = destination_output.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
+            continue
+        with filepath.open('w',encoding='utf-8') as fd:
+            json.dump(content, fd, indent=4)
+
+    destination_control = destination_config.joinpath("control").joinpath("configs")
+    destination_control.mkdir(parents=True,exist_ok=True)
+    for identifier,content in control_settings["msg"]["configurations"].items():
+        filepath = destination_control.joinpath(identifier)
+        if settings['mode'] == 'newusers' and filepath.exists():
+            continue
+        with filepath.open('w',encoding='utf-8') as fd:
+            json.dump(content, fd, indent=4)
+
+
+
+
+
+
+
+
+
+
+
+
+
     pathlib.Path('{home}/.local/share/kscreen/'.format(home=home)).mkdir(parents=True, exist_ok=True)
     for identifier,content in settings['configurations'].items():
         filepath = '{home}/.local/share/kscreen/{identifier}'.format(home=home,identifier=identifier)
@@ -33,3 +85,9 @@ else:
             continue
         with codecs.open(filepath,'w',encoding='utf-8') as fd:
             json.dump(content,fd,indent=4)
+
+
+
+
+
+
