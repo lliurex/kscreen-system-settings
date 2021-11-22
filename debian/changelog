@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2) bionic; urgency=medium
+
+  * Adapted to new kde configuration
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Mon, 22 Nov 2021 17:52:39 +0100
+
 kscreen-system-settings (0.1.9.1) bionic; urgency=medium
 
   * Dummy upgrade to force linking with libedupals-base2
