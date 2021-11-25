@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.2) bionic; urgency=medium
+
+  * Add credential on n4d call
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Thu, 25 Nov 2021 23:46:12 +0100
+
 kscreen-system-settings (0.2.1) bionic; urgency=medium
 
   * Fix code
