@@ -32,9 +32,11 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <filesystem.hpp>
 
 using namespace edupals;
 using namespace std;
+namespace fs=std::experimental::filesystem;
 
 
 K_PLUGIN_FACTORY(KScreenSystemKCMFactory,
