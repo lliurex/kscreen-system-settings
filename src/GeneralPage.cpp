@@ -139,9 +139,9 @@ void GeneralPage::save()
         variant::Variant result;
 	bool ok = true;
 
-	if (!process_dir(settings_path, result, client, "config")) ok = false;
-	if (!process_dir(outputs_path, result, client, "outputs")) ok = false;
-	if (!process_dir(control_path, result, client, "control")) ok = false;
+	if (!process_dir(settings_path, result, client, "config", credential)) ok = false;
+	if (!process_dir(outputs_path, result, client, "outputs", credential)) ok = false;
+	if (!process_dir(control_path, result, client, "control", credential)) ok = false;
 	/*
         bool ok = false;
         try{
@@ -181,7 +181,7 @@ string GeneralPage::getMode(){
     }
 }
 
-bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype ){
+bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype, n4d::auth::Credential credential ){
 
 	bool ok = true;
         auto files = filesystem::glob(path + "/*");
@@ -194,7 +194,7 @@ bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Clien
                 variant::Variant configuration = json::load(fb);
                 vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename()), filetype};
                 try{
-			result = client->call("MonitorSettings","saveResolution",arguments);
+			result = client->call("MonitorSettings","saveResolution",arguments, credential);
 		}catch(...){
 			ok=false;
 		}

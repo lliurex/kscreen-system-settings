@@ -43,7 +43,7 @@ private:
     string password;
     n4d::Client *client;
     string getMode();
-    bool process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype );
+    bool process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype,  n4d::auth::Credential credential  );
 
 private slots:
     void toggleOptions();
