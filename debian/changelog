@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.4) bionic; urgency=medium
+
+  * Fix minor bugs
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Mon, 29 Nov 2021 12:58:28 +0100
+
 kscreen-system-settings (0.2.3) bionic; urgency=medium
 
   * Fix store variable
