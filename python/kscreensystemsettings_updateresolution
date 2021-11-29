@@ -15,7 +15,7 @@ class EventHandler(pyinotify.ProcessEvent):
         self.masterkey = masterkey
 
     def process_IN_CLOSE_WRITE(self, event):
-        self.saveConfig(event.pathname)
+        self.saveConfig(Path(event.pathname))
 
     def saveConfig(self,identifier):
         config = {}
