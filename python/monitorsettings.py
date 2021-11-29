@@ -23,7 +23,7 @@ class MonitorSettings:
             objects['VariablesManager'].add_variable(n4d_filetype_var, globalSettings, {}, '', '')
         else:
             globalSettings['configurations'][identifier] = settings
-            objects['VariablesManager'].set_variable('MONITORSETTINGS', globalSettings)
+            objects['VariablesManager'].set_variable(n4d_filetype_var, globalSettings)
 
         if not os.path.exists(self.secretpath):
             newhash = "%032x"%random.getrandbits(256)
