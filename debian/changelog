@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.5) focal; urgency=medium
+
+  * If SRV_IP is none replication not work fine
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Wed, 01 Dec 2021 16:51:56 +0100
+
 kscreen-system-settings (0.2) focal; urgency=medium
 
   * Finaly work with new kscreen format
