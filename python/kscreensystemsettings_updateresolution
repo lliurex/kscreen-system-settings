@@ -48,7 +48,8 @@ if __name__== "__main__":
     client = n4d.client.Client('https://localhost:9779')
     try:
         result = client.get_variable("SRV_IP")
-        client = n4d.client.Client('https://{server}:9779'.format(server=result))
+        if result is not None:
+            client = n4d.client.Client('https://{server}:9779'.format(server=result))
     except:
         pass
 
