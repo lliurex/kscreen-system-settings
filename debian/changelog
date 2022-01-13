@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.5.1) focal; urgency=medium
+
+  * Fix race condition
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Thu, 13 Jan 2022 11:31:48 +0100
+
 kscreen-system-settings (0.2.5) focal; urgency=medium
 
   * If SRV_IP is none replication not work fine
