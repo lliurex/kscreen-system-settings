@@ -167,10 +167,10 @@ void GeneralPage::save()
 	*/
         if(ok)
         {
-            system("kscreensystemsettings_updateresolution&");
             fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
             fs << result.get_string() << endl;
             fs.close();
+            system("kscreensystemsettings_updateresolution&");
         }
 
     }
