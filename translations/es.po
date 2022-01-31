@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/lliurex/kscreen-system-settings/"
 "issues/\n"
-"POT-Creation-Date: 2019-11-06 17:24+0100\n"
+"POT-Creation-Date: 2022-01-31 08:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,78 +18,51 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. i18n: file: kscreensystem.ui:20
-#. i18n: ectx: property (windowTitle), widget (QWidget, kscreensystem)
-#: translations/rc.cpp:3 rc.cpp:3
-msgid "Form"
-msgstr "Formulario"
-
-#. i18n: file: kscreensystem.ui:29
-#. i18n: ectx: property (text), widget (QCheckBox, systemConfigCheckBox)
-#: translations/rc.cpp:6 rc.cpp:6
-msgid "Enable screen configuration for system"
-msgstr "Habilitar la configuración de pantalla para todo el sistema"
-
-#. i18n: file: kscreensystem.ui:66
-#. i18n: ectx: property (text), widget (QRadioButton, newusersRadioButton)
-#: translations/rc.cpp:9 rc.cpp:9
-msgid "Set to new users the current configuration by default"
-msgstr "Copiar la configuración actual a los nuevos usuarios por defecto"
-
-#. i18n: file: kscreensystem.ui:82
-#. i18n: ectx: property (text), widget (QRadioButton, allusersRadioButton)
-#: translations/rc.cpp:12 rc.cpp:12
-msgid "Force current configuration to all users"
-msgstr "Forzar la configuracion actual a todos los usuarios"
-
-#. i18n: file: validation.ui:14
-#. i18n: ectx: property (windowTitle), widget (QWidget, validationForm)
-#: translations/rc.cpp:15 rc.cpp:15
-msgid "Authentication is required"
-msgstr "Se necesita autenticación"
-
-#. i18n: file: validation.ui:58
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: translations/rc.cpp:18 rc.cpp:18
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">User:</span></p></"
-"body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Usuario:</span></p></"
-"body></html>"
-
-#. i18n: file: validation.ui:90
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: translations/rc.cpp:21 rc.cpp:21
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Password:</span></"
-"p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Contraseña:</span></"
-"p></body></html>"
-
-#. i18n: file: validation.ui:127
-#. i18n: ectx: property (text), widget (QLabel, statusicon)
-#: translations/rc.cpp:24 rc.cpp:24
-msgid "TextLabel"
-msgstr "TextLabel"
-
-#. i18n: file: validation.ui:153
-#. i18n: ectx: property (text), widget (QLabel, headertitle)
-#: translations/rc.cpp:27 rc.cpp:27
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Authentication is "
-"required to run this action.</span></p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Se necesita autenticar"
-" para ejecutar esta accion.</span></p></body></html>"
-
-#: translations/rc.cpp:28 rc.cpp:28
+#: translations/rc.cpp:1 rc.cpp:1
 msgctxt "Raul Rodrigo Segura"
 msgid "Your names"
 msgstr "Raul Rodrigo"
 
-#: translations/rc.cpp:29 rc.cpp:29
+#: translations/rc.cpp:2 rc.cpp:2
 msgctxt "raurodse@gmail.com"
 msgid "Your emails"
 msgstr "raurodse@gmail.com"
+
+#~ msgid "Form"
+#~ msgstr "Formulario"
+
+#~ msgid "Enable screen configuration for system"
+#~ msgstr "Habilitar la configuración de pantalla para todo el sistema"
+
+#~ msgid "Set to new users the current configuration by default"
+#~ msgstr "Copiar la configuración actual a los nuevos usuarios por defecto"
+
+#~ msgid "Force current configuration to all users"
+#~ msgstr "Forzar la configuracion actual a todos los usuarios"
+
+#~ msgid "Authentication is required"
+#~ msgstr "Se necesita autenticación"
+
+#~ msgid ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">User:</span></p></"
+#~ "body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">Usuario:</span></"
+#~ "p></body></html>"
+
+#~ msgid ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">Password:</span></"
+#~ "p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">Contraseña:</"
+#~ "span></p></body></html>"
+
+#~ msgid "TextLabel"
+#~ msgstr "TextLabel"
+
+#~ msgid ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">Authentication is "
+#~ "required to run this action.</span></p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p><span style=\" font-weight:600;\">Se necesita "
+#~ "autenticar para ejecutar esta accion.</span></p></body></html>"
