@@ -1,4 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
+
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
@@ -51,8 +52,6 @@ msgstr ""
 #. i18n: file: validation.ui:58
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: translations/rc.cpp:18 rc.cpp:18
-"<html><head/><body><p><span style=\" font-weight:600;\">User:</span></p></"
-"body></html>"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Usuario:</span></p></"
 "body></html>"
@@ -61,8 +60,6 @@ msgstr ""
 #. i18n: file: validation.ui:90
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: translations/rc.cpp:21 rc.cpp:21
-"<html><head/><body><p><span style=\" font-weight:600;\">Password:</span></"
-"p></body></html>"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Contraseña:</span></"
 "p></body></html>"
@@ -77,8 +74,6 @@ msgstr ""
 #. i18n: file: validation.ui:153
 #. i18n: ectx: property (text), widget (QLabel, headertitle)
 #: translations/rc.cpp:27 rc.cpp:27
-"<html><head/><body><p><span style=\" font-weight:600;\">Authentication is "
-"required to run this action.</span></p></body></html>"
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Se necesita "
 "autenticar para ejecutar esta accion.</span></p></body></html>"
