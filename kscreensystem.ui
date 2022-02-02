@@ -37,7 +37,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>377</width>
+           <width>671</width>
            <height>52</height>
           </rect>
          </property>
@@ -54,7 +54,7 @@
           <property name="rightMargin">
            <number>0</number>
           </property>
-          <item row="0" column="0">
+          <item row="0" column="0" colspan="2">
            <widget class="QRadioButton" name="newusersRadioButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -70,7 +70,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="1" column="0" colspan="2">
            <widget class="QRadioButton" name="allusersRadioButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
