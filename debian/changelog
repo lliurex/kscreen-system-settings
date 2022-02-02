@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.6.2) focal; urgency=medium
+
+  * Resize labels fields
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Wed, 02 Feb 2022 12:49:50 +0100
+
 kscreen-system-settings (0.2.6.1) focal; urgency=medium
 
   * Add charset to valencian translations
