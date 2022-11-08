@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/lliurex/kscreen-system-settings/"
 "issues/\n"
 "POT-Creation-Date: 2022-01-31 09:28+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2022-11-08 15:47+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
 
 #. i18n: file: kscreensystem.ui:20
 #. i18n: ectx: property (windowTitle), widget (QWidget, kscreensystem)
@@ -27,8 +27,8 @@ msgstr "Formulario"
 #. i18n: file: kscreensystem.ui:29
 #. i18n: ectx: property (text), widget (QCheckBox, systemConfigCheckBox)
 #: translations/rc.cpp:6 rc.cpp:6
-msgid "Enable screen configuration for system"
-msgstr "Habilitar la configuración de pantalla para todo el sistema"
+msgid "Apply screen configuration for system"
+msgstr "Aplicar la configuración de pantalla para todo el sistema"
 
 #. i18n: file: kscreensystem.ui:66
 #. i18n: ectx: property (text), widget (QRadioButton, newusersRadioButton)
@@ -84,7 +84,19 @@ msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Se necesita "
 "autenticar para ejecutar esta accion.</span></p></body></html>"
 
-#: translations/rc.cpp:28 rc.cpp:28
+#: src/GeneralPage.cpp:99
+msgid "An unexpected error has ocurred."
+msgstr "Ha ocurrido un error no esperado."
+
+#: src/GeneralPage.cpp:108
+msgid "N4D service is down."
+msgstr "El servicio N$D no está activo."
+
+#: src/GeneralPage.cpp:163
+msgid "Changes applied to the system"
+msgstr "Cambios aplicados para todo el sistema"
+
+#: translations/rc.cpp:1 rc.cpp:1
 msgctxt "Raul Rodrigo Segura"
 msgid "Your names"
 msgstr "Raul Rodrigo"
