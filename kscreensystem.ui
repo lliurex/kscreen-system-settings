@@ -26,7 +26,7 @@
       <item>
        <widget class="QCheckBox" name="systemConfigCheckBox">
         <property name="text">
-         <string>Enable screen configuration for system</string>
+         <string>Apply screen configuration for system</string>
         </property>
        </widget>
       </item>

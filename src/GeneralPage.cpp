@@ -77,16 +77,18 @@ void GeneralPage::load()
 	    variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
 		
 	    try{
+            systemConfigCheckBox->setChecked(true);
+            systemConfigCheckBox->setChecked(false);
 	        if (result["msg"]["mode"].get_string() == "allusers"){
-	            systemConfigCheckBox->setChecked(true);
+	            /*systemConfigCheckBox->setChecked(true);*/
 	            allusersRadioButton->setChecked(true);
 	        }
 	        else if(result["msg"]["mode"].get_string() == "newusers"){
-	            systemConfigCheckBox->setChecked(true);
+	            /*systemConfigCheckBox->setChecked(true);*/
 	            newusersRadioButton->setChecked(true);
 	        }
 	        else{
-	            systemConfigCheckBox->setChecked(false);
+	            /*systemConfigCheckBox->setChecked(false);*/
 	            newusersRadioButton->setChecked(true);
 	            toggleOptions();
 	        }
@@ -94,7 +96,7 @@ void GeneralPage::load()
 	    catch(...){
 	 	mainwidget->setEnabled(false);
 		KMessageWidget *notificationwidget = new KMessageWidget(this);
-		notificationwidget->setText("An unexpected error has ocurred.");
+		notificationwidget->setText(i18n("An unexpected error has ocurred."));
 		notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
 		notifications->layout()->addWidget(notificationwidget);	
 	    }
@@ -103,7 +105,7 @@ void GeneralPage::load()
     {
         mainwidget->setEnabled(false);
         KMessageWidget *notificationwidget = new KMessageWidget(this);
-        notificationwidget->setText("N4D service is down.");
+        notificationwidget->setText(i18n("N4D service is down."));
         notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
         notifications->layout()->addWidget(notificationwidget);	
     }
@@ -153,10 +155,16 @@ void GeneralPage::save()
 	*/
         if(ok)
         {
-            system("kscreensystemsettings_updateresolution&");
+            /*system("kscreensystemsettings_updateresolution&");*/
             fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
             fs << result["msg"].get_string() << endl;
             fs.close();
+            KMessageWidget *notificationwidget = new KMessageWidget(this);
+            notificationwidget->setText(i18n("Changes applied to the system"));
+            notificationwidget->setMessageType(KMessageWidget::MessageType::Positive);
+            notifications->layout()->addWidget(notificationwidget); 
+            systemConfigCheckBox->setChecked(false);
+
         }
 
     }
