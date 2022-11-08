@@ -27,7 +27,7 @@ msgstr ""
 #. i18n: file: kscreensystem.ui:29
 #. i18n: ectx: property (text), widget (QCheckBox, systemConfigCheckBox)
 #: translations/rc.cpp:6 rc.cpp:6
-msgid "Enable screen configuration for system"
+msgid "Apply screen configuration for system"
 msgstr ""
 
 #. i18n: file: kscreensystem.ui:66
@@ -78,7 +78,19 @@ msgid ""
 "required to run this action.</span></p></body></html>"
 msgstr ""
 
-#: translations/rc.cpp:28 rc.cpp:28
+#: src/GeneralPage.cpp:99
+msgid "An unexpected error has ocurred."
+msgstr ""
+
+#: src/GeneralPage.cpp:108
+msgid "N4D service is down."
+msgstr ""
+
+#: src/GeneralPage.cpp:163
+msgid "Changes applied to the system"
+msgstr ""
+
+#: translations/rc.cpp:1 rc.cpp:1
 msgctxt "Raul Rodrigo Segura"
 msgid "Your names"
 msgstr ""

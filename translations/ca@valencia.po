@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/lliurex/kscreen-system-settings/"
 "issues/\n"
-"POT-Creation-Date: 2022-01-31 09:28+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2019-11-06 17:24+0100\n"
+"PO-Revision-Date: 2022-11-08 16:23+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. i18n: file: kscreensystem.ui:20
 #. i18n: ectx: property (windowTitle), widget (QWidget, kscreensystem)
@@ -27,8 +27,8 @@ msgstr "Formulari"
 #. i18n: file: kscreensystem.ui:29
 #. i18n: ectx: property (text), widget (QCheckBox, systemConfigCheckBox)
 #: translations/rc.cpp:6 rc.cpp:6
-msgid "Enable screen configuration for system"
-msgstr "Habilitar la configuració de pantalla per a tot el sistema"
+msgid "Apply screen configuration for system"
+msgstr "Aplicar la configuració de pantalla per a tot el sistema"
 
 #. i18n: file: kscreensystem.ui:66
 #. i18n: ectx: property (text), widget (QRadioButton, newusersRadioButton)
@@ -55,8 +55,8 @@ msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">User:</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Usuari/"
-"ària:</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Usuari/ària:</span></"
+"p></body></html>"
 
 #. i18n: file: validation.ui:90
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -65,8 +65,8 @@ msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Password:</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\""
-">Contrasenya:</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Contrasenya:</span></"
+"p></body></html>"
 
 #. i18n: file: validation.ui:127
 #. i18n: ectx: property (text), widget (QLabel, statusicon)
@@ -84,7 +84,19 @@ msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Es necessita "
 "autenticar per a executar aquesta acció.</span></p></body></html>"
 
-#: translations/rc.cpp:28 rc.cpp:28
+#: src/GeneralPage.cpp:99
+msgid "An unexpected error has ocurred."
+msgstr "Ha ocorregut un error no esperat."
+
+#: src/GeneralPage.cpp:108
+msgid "N4D service is down."
+msgstr "El servici N4D no està actiu."
+
+#: src/GeneralPage.cpp:163
+msgid "Changes applied to the system"
+msgstr "Canvis aplicats per a tot el sistema"
+
+#: translations/rc.cpp:1 rc.cpp:1
 msgctxt "Raul Rodrigo Segura"
 msgid "Your names"
 msgstr "Raul Rodrigo"
@@ -93,27 +105,3 @@ msgstr "Raul Rodrigo"
 msgctxt "raurodse@gmail.com"
 msgid "Your emails"
 msgstr "raurodse@gmail.com"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
