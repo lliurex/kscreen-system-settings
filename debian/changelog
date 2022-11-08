@@ -1,3 +1,9 @@
+kscreen-system-settings (0.2.4.2) bionic; urgency=medium
+
+  * Fixed performance to force user to apply changes in system
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 08 Nov 2022 16:25:10 +0100
+
 kscreen-system-settings (0.2.4.1) bionic; urgency=medium
 
   * Add valencian translations
