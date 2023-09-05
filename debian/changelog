@@ -1,3 +1,9 @@
+kscreen-system-settings (0.12.6.3) jammy; urgency=medium
+
+  * Initial release for Jammy
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 05 Sep 2023 11:50:30 +0200
+
 kscreen-system-settings (0.2.6.3) focal; urgency=medium
 
   * Fixed performance to force user to apply changes to the system
