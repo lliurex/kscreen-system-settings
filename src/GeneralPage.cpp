@@ -50,9 +50,8 @@ GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
     setButtons(Apply);
     setupUi(this);
     fillUi();
-   /* client = new n4d::Client("https://localhost",9779);*/
-   client = new n4d::Client("https://localhost:9779");
-     
+    /* client = new n4d::Client("https://localhost",9779);*/
+    client = new n4d::Client("https://localhost:9779");
 }
 
 GeneralPage::~GeneralPage()
@@ -72,19 +71,31 @@ void GeneralPage::load()
          vector<variant::Variant> args = {"SRV_IP"};
          variant::Variant remote = client->call("VariablesManager","get_variable",args);
          */
-         try {
-                 variant::Variant remote = client->get_variable("SRV_IP",false);
-              address="https://"+ remote.get_string()+":9779";
-         }
-         catch (...) {
-              address="https://localhost:9779";
-         }
-         
-        client = new n4d::Client(address);
-        vector<variant::Variant> arguments = {"config"};
-        variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
-
         try {
+            variant::Variant remote = client->get_variable("SRV_IP",false);
+            string server_address = remote.get_string();
+
+            if (server_address == "") {
+                clog<<"Ignored empty SRV_IP"<<endl;
+                return;
+            }
+
+            address="https://"+ server_address +":9779";
+        }
+        catch (...) {
+            address="https://localhost:9779";
+        }
+         
+        try {
+
+            if (client) {
+                delete client;
+            }
+
+            client = new n4d::Client(address);
+            vector<variant::Variant> arguments = {"config"};
+            variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
+
             systemConfigCheckBox->setChecked(true);
             systemConfigCheckBox->setChecked(false);
 
@@ -102,7 +113,7 @@ void GeneralPage::load()
                toggleOptions();
             }
         }
-        catch(...) {
+        catch (...) {
             mainwidget->setEnabled(false);
             KMessageWidget *notificationwidget = new KMessageWidget(this);
             notificationwidget->setText(i18n("An unexpected error has ocurred."));
