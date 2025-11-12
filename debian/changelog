@@ -1,3 +1,10 @@
+kscreen-system-settings (0.12.7.0) jammy; urgency=medium
+
+  * Preventing application from crash if SRV_IP exists but it is empty
+  * Identing fixes
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Wed, 12 Nov 2025 10:17:18 +0100
+
 kscreen-system-settings (0.12.6.3) jammy; urgency=medium
 
   * Initial release for Jammy
