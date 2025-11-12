@@ -30,48 +30,56 @@ class AsyncN4D: public QThread
 {
     Q_OBJECT
 
-    public:
-        std::string user;
-        std::string password;
+public:
 
+    std::string user;
+    std::string password;
 
-        AsyncN4D(std::string user,std::string password)
-        {
-            this->user=user;
-            this->password=password;
-        }
-        void run()
-        {
-            /*edupals::n4d::Client client("https://localhost",9779);*/
-	    edupals::n4d::Client client("https://localhost:9779",user,password);
-	    bool result = client.validate_auth();
-            emit message(result);
-        }
+    AsyncN4D(std::string user,std::string password)
+    {
+        this->user=user;
+        this->password=password;
+    }
 
-    signals:
-        void message(bool);
+    void run()
+    {
+        /*edupals::n4d::Client client("https://localhost",9779);*/
+        edupals::n4d::Client client("https://localhost:9779",user,password);
+        bool result = client.validate_auth();
+        emit message(result);
+    }
+
+signals:
+
+    void message(bool);
+
 };
-
 
 class ValidationForm : public QDialog, private Ui_validationForm
 {
     Q_OBJECT
 
 public:
+
     ValidationForm(QWidget *parent);
     virtual ~ValidationForm(){};
+
     void fillUi();
     std::string getUser();
     std::string getPassword();
+
 private:
+
     QWidget *parent;
     KMessageWidget *notificationwidget;
     AsyncN4D* an4d;
     void setEnableWidgets(bool status);
+
 private slots:
+
     void validateUser();
     void n4dDone(bool status);
 };
 
 #endif
-           
+
