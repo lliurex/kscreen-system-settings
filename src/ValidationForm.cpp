@@ -57,29 +57,33 @@ void ValidationForm::validateUser()
 
 void ValidationForm::n4dDone(bool result)
 {
-    if (result){
+    if (result) {
         this->done(1);
     }
-    else{
+    else {
         notificationwidget->setText("Error de validacion");
         notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
         notificationwidget->setCloseButtonVisible(false);
         ((QGraphicsOpacityEffect*)notificationwidget->graphicsEffect())->setOpacity(1);
     }
+
     an4d->exit(0);
-    if (an4d->wait())
-    {
+
+    if (an4d->wait()) {
         delete an4d;
     }
+
     setEnableWidgets(true);
 
 }
 
-string ValidationForm::getUser(){
+string ValidationForm::getUser()
+{
     return user->text().toStdString();
 }
 
-string ValidationForm::getPassword(){
+string ValidationForm::getPassword()
+{
     return password->text().toStdString();
 }
 
@@ -90,7 +94,8 @@ void ValidationForm::setEnableWidgets(bool state)
     actionButtons->setEnabled(state);
 }
 
-void ValidationForm::fillUi(){
+void ValidationForm::fillUi()
+{
     connect(actionButtons, SIGNAL(accepted()), SLOT(validateUser()));
     connect(actionButtons, SIGNAL(rejected()), SLOT(reject()));
 }

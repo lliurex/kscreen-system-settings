@@ -52,7 +52,6 @@ GeneralPage::GeneralPage(QWidget *parent, const QVariantList &args)
     fillUi();
    /* client = new n4d::Client("https://localhost",9779);*/
    client = new n4d::Client("https://localhost:9779");
-
      
 }
 
@@ -68,59 +67,58 @@ void GeneralPage::load()
 {
     bool status = client->running();
 
-    if ( status)
-    {
+    if (status) {
         /*
          vector<variant::Variant> args = {"SRV_IP"};
          variant::Variant remote = client->call("VariablesManager","get_variable",args);
          */
-         try{
+         try {
                  variant::Variant remote = client->get_variable("SRV_IP",false);
               address="https://"+ remote.get_string()+":9779";
          }
-         catch (...){
+         catch (...) {
               address="https://localhost:9779";
          }
          
-             client = new n4d::Client(address);
-         vector<variant::Variant> arguments = {"config"}; 
-         variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
-         try{
-          systemConfigCheckBox->setChecked(true);
-          systemConfigCheckBox->setChecked(false);     
-          if (result["mode"].get_string() == "allusers"){  
+        client = new n4d::Client(address);
+        vector<variant::Variant> arguments = {"config"};
+        variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
+
+        try {
+            systemConfigCheckBox->setChecked(true);
+            systemConfigCheckBox->setChecked(false);
+
+            if (result["mode"].get_string() == "allusers") {
               /*systemConfigCheckBox->setChecked(true);*/
               allusersRadioButton->setChecked(true);
-          }
-          else if(result["mode"].get_string() == "newusers")
-          {
+            }
+            else if(result["mode"].get_string() == "newusers") {
                /*systemConfigCheckBox->setChecked(true);*/
                newusersRadioButton->setChecked(true);
-          }
-          else{
+            }
+            else {
                /*systemConfigCheckBox->setChecked(false);*/
                newusersRadioButton->setChecked(true);
                toggleOptions();
-          }
-         }
-         catch(...){
-               mainwidget->setEnabled(false);
-          KMessageWidget *notificationwidget = new KMessageWidget(this);
-          notificationwidget->setText(i18n("An unexpected error has ocurred."));
-          notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
-          notifications->layout()->addWidget(notificationwidget);     
-
-     }
-    }
-    else{
-           
-         mainwidget->setEnabled(false);
-         KMessageWidget *notificationwidget = new KMessageWidget(this);
-            notificationwidget->setText(i18n("N4D service is down."));
+            }
+        }
+        catch(...) {
+            mainwidget->setEnabled(false);
+            KMessageWidget *notificationwidget = new KMessageWidget(this);
+            notificationwidget->setText(i18n("An unexpected error has ocurred."));
             notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
-            notifications->layout()->addWidget(notificationwidget);     
+            notifications->layout()->addWidget(notificationwidget);
+        }
+    }
+    else {
+        mainwidget->setEnabled(false);
+        KMessageWidget *notificationwidget = new KMessageWidget(this);
+        notificationwidget->setText(i18n("N4D service is down."));
+        notificationwidget->setMessageType(KMessageWidget::MessageType::Error);
+        notifications->layout()->addWidget(notificationwidget);
      
-}
+    }
+
     user = "";
     password = "";
 }
@@ -131,99 +129,99 @@ void GeneralPage::load()
 void GeneralPage::save()
 {
 
-    if (user == "" )
-    {
-         ValidationForm dialog(this);
-         dialog.exec();
-    
-         if (dialog.result() == QDialog::DialogCode::Accepted)
-         {
-         user = dialog.getUser();
-         password = dialog.getPassword();
-         }
-    }
-    if (user != "" )
-    {
-        /*n4d::auth::Credential credential(user,password);*/
-     client = new n4d::Client(address,user,password);    
-     vector<variant::Variant> mode = {getMode()};
-        client->call("MonitorSettings","saveMode", mode);
-     string settings_path = string(getenv("HOME")) + "/.local/share/kscreen";
-     string outputs_path = string(getenv("HOME"))+"/.local/share/kscreen/outputs";
-     string control_path = string(getenv("HOME"))+"/.local/share/kscreen/control/configs";
-        variant::Variant result;
-     bool ok = true;
+    if (user == "") {
+        ValidationForm dialog(this);
+        dialog.exec();
 
-     if (!process_dir(settings_path, result, client, "config")) ok = false;
-     if (!process_dir(outputs_path, result, client, "outputs")) ok = false;
-     if (!process_dir(control_path, result, client, "control")) ok = false;
-     /*
-        bool ok = false;
-        try{
-            ok = result["status"].get_boolean();
+        if (dialog.result() == QDialog::DialogCode::Accepted) {
+            user = dialog.getUser();
+            password = dialog.getPassword();
         }
-        catch (...){
-            ok = false;
-        }
-     */
-        if(ok)
-        {
+    }
+
+    if (user != "" ) {
+        /*n4d::auth::Credential credential(user,password);*/
+        client = new n4d::Client(address,user,password);
+        vector<variant::Variant> mode = {getMode()};
+        client->call("MonitorSettings","saveMode", mode);
+        string settings_path = string(getenv("HOME")) + "/.local/share/kscreen";
+        string outputs_path = string(getenv("HOME"))+"/.local/share/kscreen/outputs";
+        string control_path = string(getenv("HOME"))+"/.local/share/kscreen/control/configs";
+        variant::Variant result;
+        bool ok = true;
+
+        if (!process_dir(settings_path, result, client, "config")) ok = false;
+        if (!process_dir(outputs_path, result, client, "outputs")) ok = false;
+        if (!process_dir(control_path, result, client, "control")) ok = false;
+        /*
+            bool ok = false;
+            try{
+                ok = result["status"].get_boolean();
+            }
+            catch (...){
+                ok = false;
+            }
+        */
+
+        if (ok) {
             fstream fs(  string(getenv("HOME")) + "/.config/kscreensystem" , fstream::out);
             fs << result.get_string() << endl;
             fs.close();
             KMessageWidget *notificationwidget = new KMessageWidget(this);
             notificationwidget->setText(i18n("Changes applied to the system"));
             notificationwidget->setMessageType(KMessageWidget::MessageType::Positive);
-            notifications->layout()->addWidget(notificationwidget);     
+            notifications->layout()->addWidget(notificationwidget);
             systemConfigCheckBox->setChecked(false);
         }
 
     }
-    else{
-         QMetaObject::invokeMethod(this, "changed", Qt::QueuedConnection, Q_ARG(bool, true));
+    else {
+        QMetaObject::invokeMethod(this, "changed", Qt::QueuedConnection, Q_ARG(bool, true));
     }
 }
 
-string GeneralPage::getMode(){
-    if (!systemConfigCheckBox->isChecked())
-    {
+string GeneralPage::getMode()
+{
+    if (!systemConfigCheckBox->isChecked()) {
         return "nobody";
     }
-    else
-    {
-        if(newusersRadioButton->isChecked()){
+    else {
+        if(newusersRadioButton->isChecked()) {
             return "newusers";
         }
-        else{
+        else {
             return "allusers";
         }
     }
 }
 
+bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype )
+{
 
-bool GeneralPage::process_dir( string path, variant::Variant &result, n4d::Client *client, string filetype ){
+    bool ok = true;
+    auto files = filesystem::glob(path + "/*");
 
-     bool ok = true;
-        auto files = filesystem::glob(path + "/*");
-     for (auto file : files) 
-        {
-         if (fs::is_directory(fs::path(file))) continue;
-            fstream fb;
-         fb.open(file.string(),ios::in);
-            if(fb.is_open()){
-                variant::Variant configuration = json::load(fb);
-                vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename()), filetype};
-                try{
-               result = client->call("MonitorSettings","saveResolution",arguments);
-          }catch(...){
-               ok=false;
-          }
-            }   
+    for (auto file : files) {
+
+        if (fs::is_directory(fs::path(file))) continue;
+        fstream fb;
+        fb.open(file.string(),ios::in);
+
+        if (fb.is_open()) {
+            variant::Variant configuration = json::load(fb);
+            vector<variant::Variant> arguments = {configuration,variant::Variant(file.filename()), filetype};
+
+            try {
+                result = client->call("MonitorSettings","saveResolution",arguments);
+            }
+            catch (...) {
+                ok=false;
+            }
         }
-     return ok;
+    }
+
+    return ok;
 }
-
-
 
 //
 // This function write default values into n4d
