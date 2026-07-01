@@ -1,3 +1,9 @@
+kscreen-system-settings (0.12.8) jammy; urgency=medium
+
+  * Show working mode on ui 
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Wed, 01 Jul 2026 10:10:52 +0200
+
 kscreen-system-settings (0.12.7.0) jammy; urgency=medium
 
   * Preventing application from crash if SRV_IP exists but it is empty
