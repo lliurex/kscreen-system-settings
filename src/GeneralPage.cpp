@@ -65,6 +65,7 @@ GeneralPage::~GeneralPage()
 void GeneralPage::load()
 {
     bool status = client->running();
+    systemConfigCheckBox->setChecked(false);
 
     if (status) {
         /*
@@ -96,15 +97,13 @@ void GeneralPage::load()
             vector<variant::Variant> arguments = {"config"};
             variant::Variant result = client->call("MonitorSettings","getSettings",arguments);
 
-            systemConfigCheckBox->setChecked(true);
-            systemConfigCheckBox->setChecked(false);
 
             if (result["mode"].get_string() == "allusers") {
-              /*systemConfigCheckBox->setChecked(true);*/
+              systemConfigCheckBox->setChecked(true);
               allusersRadioButton->setChecked(true);
             }
             else if(result["mode"].get_string() == "newusers") {
-               /*systemConfigCheckBox->setChecked(true);*/
+               systemConfigCheckBox->setChecked(true);
                newusersRadioButton->setChecked(true);
             }
             else {
